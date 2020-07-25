@@ -10,6 +10,11 @@ woofin' up Geometry Dash's user leaderboard
 
 ![link](https://cdn.discordapp.com/attachments/643281081272893471/736433600836403281/linkageTiny.png) [UL Googlesheet](https://docs.google.com/spreadsheets/d/10lbPnDYJXhbtlA0ls0cGjjX_osFSG559IDrTbhgPHvc)
 
+## Recent Update Log:
+> ```
+> * (July 24, 2020) Started using Github
+>```
+
 ## Current works in progress:
 > ```
 > * Uploading all files for GitHub
