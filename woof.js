@@ -24,6 +24,7 @@ client.on(`message`, msg => {
         localPage: 0,
         localStat: 0,
         level: 0,
+        slashes: 0,
         command: 0,
         data: {
             guild: woof.cleanPropertyGuilds(woof.properties(settings.properties, require("./storedData/guilds.json")[msg.guild.id], settings.propertyComs[2])),
@@ -35,8 +36,12 @@ client.on(`message`, msg => {
     msg.level = isNaN(Number(msg.data.user.level)) ? 0 : Number(msg.data.user.level);
 
     if (!(msg.prefix === undefined)){
-        msg.content = msg.content.slice(msg.prefix.length, msg.content.length);
-        msg.content = msg.content.startsWith(" ") ? msg.content.slice(1, msg.content.length) : msg.content;
+        while (msg.content.endsWith("/")){
+            msg.content = msg.content.substr(0, msg.content.length-1);
+            msg.slashes++;
+        };
+        msg.content = msg.content.substr(msg.prefix.length, msg.content.length);
+        msg.content = msg.content.startsWith(" ") ? msg.content.substr(1, msg.content.length) : msg.content;
         msg.args = msg.content.split(" ").filter(item => typeof item === "string" ? item.length > 0 : false);
         if (msg.args.length > 0){
             msg.content = msg.content.substr(msg.args[0].length+1, msg.content.length);
@@ -51,11 +56,11 @@ client.on(`message`, msg => {
                     if (msg.level >= msg.command.level){
                         msg.command.execute(client, msg);
                     }else{
-                        msg.raw.channel.send(`${woof.emote(emotes.ul.error)} **${settings.errors.permission}**`)
+                        msg.raw.channel.send(`${woof.emote(emotes.ul.error)} **${settings.texts.permission}**`)
                     };
                 };
             }else if (Array.isArray(msg.data.guild.channelBots) ? msg.data.guild.channelBots.length > 0 : false){
-                msg.raw.channel.send(`${woof.emote(emotes.ul.error)} **${settings.errors.notBotChannel}**`);
+                msg.raw.channel.send(`${woof.emote(emotes.ul.error)} **${settings.texts.notBotChannel}**`);
             };
         }else if (Number(msg.data.guild.channelRequest) > 0 && msg.channelID === msg.data.guild.channelRequest && typeof msg.content.length > 0){
             let commandRequest = commands.commands.find(cmd => cmd.commands.find(callers => callers.toLowerCase() === "request"));
@@ -64,7 +69,7 @@ client.on(`message`, msg => {
                     commandRequest.execute(client, msg);
                 };
             };
-        }else if (Number(msg.data.guild.channelCountings) > 0 ? msg.data.guild.channelCountings.some(item => item === msg.channelID) : false){
+        }else if (Array.isArray(msg.data.guild.channelCountings) ? msg.data.guild.channelCountings.some(item => item === msg.channelID) : false){
             if (!(Number(msg.raw.content) > 0 && Math.floor(Number(msg.raw.content)) === Number(msg.raw.content))){
                 setTimeout(function(){msg.raw.delete().catch(err => {});}, 1250);
             };
