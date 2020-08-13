@@ -7,11 +7,13 @@ woofin' up Geometry Dash's user leaderboard
 
 #### 📖 Useful Info
 *My Open Contacts*
+
 > **Discord Tag:** `8=8#3200`<br>
 > **Instagram:** `@xshadowwizardx`<br>
 > **Twitter:** `@XShadowWizardX`
-<br>
-*Versions*<br>
+
+*Versions*
+
 > **Node:** `14.0.0`<br>
 > **discord.js:** `12.2.0`
 <br>
