@@ -11,7 +11,7 @@ woofin' up Geometry Dash's user leaderboard
 > **Instagram:** `@xshadowwizardx`<br>
 > **Twitter:** `@XShadowWizardX`
 <br>
-*Versions*
+*Versions*<br>
 > **Node:** `14.0.0`<br>
 > **discord.js:** `12.2.0`
 <br>
