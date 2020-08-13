@@ -9,6 +9,8 @@ woofin' up Geometry Dash's user leaderboard
 > My Discord Tag: `8=8#3200`<br>
 > My Twitter: `@XShadowWizardX`
 
+I'm still a beginner when it comes to coding, so this code will likely be messy. If you know more than me, feel free to help me out by reaching out to me, I may take awhile to fully understand but I will excel at it once I do 😉
+
 #### 💎 Recent Update Log:
 ```
 * (July 24, 2020) Started using Github
