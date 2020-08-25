@@ -1,0 +1,10 @@
+{
+    "messageID": 1,
+    "accountID": 2,
+    "playerID": 3,
+    "subject": 4,
+    "message": 5,
+    "username": 6,
+    "time": 7,
+    "read": 8
+}
