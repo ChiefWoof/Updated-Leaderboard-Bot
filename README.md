@@ -21,6 +21,7 @@ I'm still a beginner when it comes to coding, so this code will likely be messy.
 
 #### 💎 Recent Update Log:
 ```
+* (August 25, 2020) Bot files uploaded to Github
 * (July 24, 2020) Started using Github
 ```
 
