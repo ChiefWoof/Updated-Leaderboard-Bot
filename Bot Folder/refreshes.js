@@ -105,7 +105,7 @@ async function sendStatNotifications(client, packets, allAnnounce){
     function useChannelPacket(packet){
         packet.packets = JSON.parse(JSON.stringify(packets))
             .filter(item => true === true ? true : typeof item.text === 'string' ? item.text.length > 0 : false)
-            .filter(item => +item.mod > 0 || +item.sg > 0 || +item.net >= (packet.type === 0 ? 65535 : 0));
+            .filter(item => +item.mod > 0 || +item.sg > 0 || +item.lvl >= settings.levels.Special || +item.net >= (packet.type === 0 ? 65535 : 0));
 
         if (packet.type === 2) packet.packets = packet.packets.filter(item => +item.level >= settings.levels.Special);
         if (packet.type === 3) packet.packets = packet.packets.filter(item => +item.sg > 0);

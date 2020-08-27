@@ -24,12 +24,12 @@ function reloadRefreshes(client) {
 }
 
 function messageReactions(client, channelID, messageID, user, reaction) {
-    let data = woof.getItemsWithProperty(ul.properties.properties, require("./storedData/guilds.json"), [84, 85, 8], ul.properties.propertyComs[2]);
+    let data = woof.getItemsWithProperty(ul.properties.properties, require("./storedData/guilds.json"), [84, 85, 36], ul.properties.propertyComs[2]);
 
     data.map(guild => {
         let isUsed = 0;
 
-        [8, 84, 85].map(async key => {
+        [36, 84, 85].map(async key => {
             if (guild[key] == null || !(isUsed === 0)) return;
             
             if (channelID === "454918605302398976" ? true : Array.isArray(guild[key]) ? guild[key].find(item => item === channelID) : guild[key] === channelID){
@@ -37,15 +37,13 @@ function messageReactions(client, channelID, messageID, user, reaction) {
                 if (channel == null) return;
 
                 const msg = await channel.messages.fetch(messageID);
-                if (msg == null ? true : Array.isArray(msg.embeds) ? msg.embeds[0] == null : true) return;
-                
+                if (msg == null) return;
                 // actions
 
                 if (!(user.data.level >= settings.levels.Helper)) return;
-
                 // helper actions
 
-                if (key === 8) actions.actions[3](client, msg, reaction, user);
+                if (key === 36) actions.actions[3](client, msg, reaction, user);
                 if (key === 85) actions.actions[6](client, msg, reaction, user);
                 if (key === 84) actions.actions[8](client, msg, reaction, user);
                 
@@ -58,9 +56,9 @@ function localPageCheck(input, currentPage) {
     let returnValue = {res: 0, localPage: +currentPage > 0 ? +JSON.parse(JSON.stringify(currentPage)) : 0};
     input = typeof input == 'string' ? input : "";
     
-    if (["next", "forward", "+1"].some(item => item == input.toLowerCase())) returnValue.localPage++;
+    if (["next", "forward", "+1"].some(item => item === input.toLowerCase())) returnValue.localPage++;
 
-    if (["prev", "previous", "back", "-1"].some(item => item == input.toLowerCase())) returnValue.localPage--;
+    if (["prev", "previous", "back", "-1"].some(item => item === input.toLowerCase())) returnValue.localPage--;
 
     if (input.toLowerCase().startsWith("page ")) returnValue.localPage = Math.round(input.split(" ")[1])-1;
 
@@ -84,7 +82,7 @@ client.login(settings.beta && !settings.forceMainLogin ? private.tokens.beta : p
 
 client.on('raw', packet => {
     const {t, d} = packet;
-    reloadRefreshes(client);
+    if (settings.refreshes) reloadRefreshes(client);
 
     if (d == null ? 1 : d.member == null ? 1 : d.member.user == null ? 1 : d.member.user.bot) return;
 
@@ -170,7 +168,7 @@ client.on('message', msg => {
             let reload = 0;
 
             if (pagination) {
-                let res = localPageCheck(reaction._emoji.id == emotes.ul.prev ? "-1" : reaction._emoji.id ? "+1" : 0, msg.localPage);
+                let res = localPageCheck(reaction._emoji.id == emotes.ul.prev ? "-1" : reaction._emoji.id == emotes.ul.next ? "+1" : 0, msg.localPage);
                 msg.localPage = res.localPage;
                 reload = res.res;
             };

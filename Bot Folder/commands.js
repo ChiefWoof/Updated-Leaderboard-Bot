@@ -30,16 +30,18 @@ function timeoutsFilter(){
 
 function timeoutsCheck(id, disID, getNum, getLong){
     timeoutsFilter();
+
     let localTimeouts = (typeof timeouts[disID] === "string" ? woof.groups(timeouts[disID].split(":"), 2, 1) : []).filter(item => Array.isArray(item) && Array.isArray(item) ? Number(item[0]) === Number(id) && Number(id) > 0 : false).sort((a, b) => Number(b[1]) - Number(a[1]));
     localTimeouts = getNum ? localTimeouts.length > 0 ? Number(typeof settings.timeouts[localTimeouts[0][0]] === "string" ? settings.timeouts[localTimeouts[0][0]].split(":")[0] : NaN)-(Date.now()-Number(localTimeouts[0][1])) : 0 : localTimeouts.length > 0 ? 0 : 1;
     return getNum ? ms(localTimeouts, {long: getLong ? true : false}) : localTimeouts;
 }
 
 function timeoutsAdd(id, disID){
-    if (Number(disID) > 0){
+    if (+disID > 0){
         id = (Array.isArray(id) ? id : typeof id === "string" ? id.split(":") : [id]).map(id => {
             return typeof settings.timeouts[id] === "string" ? `${id}:${Date.now()}` : null;
         }).filter(item => typeof item === "string");
+        
         timeouts[disID] = typeof timeouts[disID] === "string" ? `${timeouts[disID]}:${id.join(":")}` : id.join(":");
     };
     timeoutsFilter();
@@ -80,6 +82,12 @@ async function requestUser(client, msg){
             localEmbed.setDescription(`${Number(user) === -1 ? settings.texts.user : settings.texts.servers}`);
             setTimeout(() => { botMsg.edit(localEmbed).catch(err => {}); }, 750);
         }else if (typeof user === "object"){
+
+            if (helperPass > 1 ? false : await actions.actions[11](client, msg, user.accountID)) {
+                localEmbed.setDescription(`${settings.texts.inRequestCache} \`\`\`${settings.texts.inRequestCacheDesc}\`\`\``);
+                setTimeout(() => { botMsg.edit(localEmbed).catch(err => {}); }, 750);
+                return;
+            };
 
             function loadEmbed(success, info, desc, addition){
                 localEmbed.fields = [];
@@ -661,7 +669,7 @@ async function profile(client, msg){
                 data.oldData = (Array.isArray(oldData) ? oldData : []).find(row => row.accountID === data.display.accountID);
                 
                 if (!(data.hacker == null)){
-                    data.display.hacker = 1;
+                    data.display.hacker = data.hacker.toggle == null ? 1 : data.hacker.toggle.toLowerCase() === 'true' ? 0 : data.hacker.type == null ? 1 : data.hacker.type.toLowerCase().includes("note") ? 0 : 1;
                     data.hacker.pastnames = data.hacker.pastnames == null ? [] : data.hacker.pastnames.split(";").filter(item => typeof item === 'string' ? item.toLowerCase() === 'n/a' ? false : item.toLowerCase() === '_' ? false : item.toLowerCase().length >= 3 : false);
                     if (!(data.display.username === data.hacker.lastrecordedname)){
                         data.hacker.pastnames.unshift(`${data.display.username}:${Date.now()}`);
@@ -805,8 +813,8 @@ async function profile(client, msg){
                                 param = param.split("|");
                                 param = `\`${param[0]}\`${typeof param[1] != 'string' ? '' : ` *- ${param[1]}*`}`;
                                 return `${woof.emote(emotes.ul.blank)}${settings.characters.bulletPoint} ${param}`;
-                            }).join("\n")}\n\n*input "none" to remove changed settings*`;
-                        }).filter(item => item != null).join("\n\n");
+                            }).join("\n")}`;
+                        }).filter(item => item != null).join("\n\n")+'\n\n*input "none" to remove changed settings*';
                     }
 
                     function commandDisplay() {
@@ -914,7 +922,7 @@ async function profile(client, msg){
                         useData.unshift(data.display[data.settings.stat]);
                         let useNames = useData.map((v, i) => {
                             return i === 0 ? `Current` : `${i}w ago`;
-                        });
+                        }).reverse();
                         ["lb", "ub"].map(key => {
                             data.settings[key] = isNaN(Number(data.settings[key])) ? key === "ub" ? 999 : 0 : Number(data.settings[key]);
                         });
@@ -934,7 +942,8 @@ async function profile(client, msg){
                                 localEmbed.addField(settings.characters.spaces, `> **Lower Bound:** \`${data.settings.lb}\` **Upper Bound:** \`${data.settings.ub}\`\n> **Page:** \`${localPage+1} of 2\`\n\n${woof.loadingMsg(1, `*`)}`);
                                 botMsg.edit(localEmbed);
                                 
-                                woof.loadChart(useData, useNames.reverse(), data.settings.lb, data.settings.ub, localPage, data.display.setBan ? 0 : data.display.bgprog, typeof data.display.color === "string" && !data.display.setBan ? settings.colorKey[data.display.color] == null ? data.display.color : settings.colorKey[data.display.color] : null, Object.keys(settings.statKeys).findIndex(item => item === data.settings.stat), async graph => {
+
+                                woof.loadChart(useData, useNames, data.settings.lb, data.settings.ub, localPage, data.display.setBan ? 0 : data.display.bgprog, typeof data.display.color === "string" && !data.display.setBan ? settings.colorKey[data.display.color] == null ? data.display.color : settings.colorKey[data.display.color] : null, Object.keys(settings.statKeys).findIndex(item => item === data.settings.stat), async graph => {
                                     if (graph == null) return;
 
                                     let discordThing = await client.channels.fetch("637430108428304404");

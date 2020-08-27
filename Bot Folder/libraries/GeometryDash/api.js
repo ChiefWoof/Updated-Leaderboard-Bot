@@ -248,7 +248,7 @@ function gdFetch(execute, conditions, fileName, getFirst){
             if (typeof execute === 'function') execute(data);
             if (typeof res === 'function') res(data);
         })
-        .catch(err => {execute(-2);});
+        .catch(err => {if (typeof execute === 'function') execute(-2);});
     });
 };
 

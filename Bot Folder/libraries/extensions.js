@@ -279,7 +279,7 @@ module.exports = {
         let pathImages = "./storedData/images/",
         y = this;
         arrayStats = JSON.parse(JSON.stringify(stats)).slice(+lb > 0 ? lb : 0, +ub < 9999 ? ub : 9999),
-        arrayNames = names.slice(+lb > 0 ? lb : 0, +ub < 9999 ? ub : 9999),
+        arrayNames = JSON.parse(JSON.stringify(names)).slice(+lb > 0 ? lb : 0, +ub < 9999 ? ub : 9999),
         statsRaw = [], arrayGains = [], statsMax = 0, statsMin = 0;
         chartType = +chartType > 0 ? Math.floor(chartType) : 0;
         setColor = (Array.isArray(setColor) ? setColor : typeof setColor === "string" && !(setColor === "") && !(setColor === "_") ? this.hexToRGB(setColor) : [255, 255, 255]).map(item => {
@@ -292,7 +292,7 @@ module.exports = {
                 if (!(item === NaN)){
                     arrayGains.push(item);
                     arrayStats[i] = item;
-                    arrayNames[i] = [names[i], names[i+1]].map(item => {
+                    arrayNames[i] = [arrayNames[i], arrayNames[i+1]].map(item => {
                         item = typeof item === "string" ? item.includes("w ago")? item.split("w")[0] : item.substr(0, 2) : undefined;
                         return item;
                     }).join("-");
@@ -301,6 +301,7 @@ module.exports = {
                 arrayStats[i] = Number(arrayStats[i]);
             };
         });
+
 
         let gainsMax = Math.abs(JSON.parse(JSON.stringify(arrayGains)).sort((a, b) => Math.abs(b)-Math.abs(a))[0]),
         localStatName = settings.statKeys[Object.keys(settings.statKeys)[+setStat > 0 ? setStat : 0]],
@@ -383,6 +384,10 @@ module.exports = {
 
                             function generateText(graph, counter, execute){
                                 if (chartType === 1 ? counter < arrayGains.length : counter < arrayStats.length){
+                                    if (dataPoints[counter] == null) {
+                                        generateText(graph, counter+1, execute);
+                                        return;
+                                    };
                                     let text = typeof arrayStats[counter] === "string" || typeof arrayStats[counter] === "number" ? arrayStats[counter].toString().length > 0 ? `${+arrayStats[counter] < 0 || !(chartType === 1) ? `` : `+`}${arrayStats[counter]}` : "-" : "-",
                                     useFont = chartType === 1 ? Number(arrayGains[counter]) < 0 ? fontRed : fontGreen : fontWhite,
                                     textX = dataPoints[counter][0]-0.5*jimp.measureText(useFont, text),
