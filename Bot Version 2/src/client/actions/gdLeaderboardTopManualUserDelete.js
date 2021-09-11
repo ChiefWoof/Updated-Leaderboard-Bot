@@ -17,11 +17,8 @@ class gdLeaderboardTopManualUserDeleteAction extends Action {
 
     handle(entry) {
         if (!entry) return;
-        if (this.client.gdLeaderboardTopManual.hasRank(entry.rankGlobal)) {
-            let v = this.client.gdLeaderboardTopManual.get(`${entry.rankGlobal}`);
-            this.client.gdLeaderboardTopManual.delete(entry.rankGlobal);
-            this.client.emit(events.GD_LEADERBOARD_TOP_MANUAL_USER_DELETE, v);
-        }
+        if (this.client.gdLeaderboardTopManual.deleteEntry(entry))
+            this.client.emit(events.GD_LEADERBOARD_TOP_MANUAL_USER_DELETE, entry);
     }
 
 }
