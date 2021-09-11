@@ -17,7 +17,7 @@ class gdLevelsDeleteAction extends Action {
 
     handle(entry) {
         if (!entry) return;
-        if (this.client.gdLeaderboardTopManual.deleteEntry(entry))
+        if (this.client.gdLevels.deleteEntry(entry))
             this.client.emit(events.GD_LEVELS_DELETE, entry);
     }
 
