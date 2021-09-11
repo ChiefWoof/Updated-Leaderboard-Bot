@@ -15,7 +15,8 @@ woofin' up Geometry Dash's user leaderboard
 *Versions*
 
 > **Node:** `16.9.1`<br>
-> **discord.js:** `13.1.0`
+> **discord.js:** `13.1.0`<br>
+> ***UL Bot* `2.0.0` (version.update.adjustments)
 <br>
 I'm still a beginner when it comes to coding, so this code will likely be messy. If you know more than me, feel free to help me out by reaching out to me, I may take awhile to fully understand but I will excel at it once I do 😉
 
