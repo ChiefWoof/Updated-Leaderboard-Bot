@@ -17,11 +17,8 @@ class ulAccountsDeleteAction extends Action {
 
     handle(entry) {
         if (!entry) return;
-        if (this.client.ulAccounts.hasULID(entry.ulID)) {
-            let v = this.client.ulAccounts.get(`${entry.ulID}`);
-            this.client.ulAccounts.delete(entry.ulID);
-            this.client.emit(events.UL_ACCOUNTS_DELETE, v);
-        }
+        if (this.client.ulAccounts.deleteEntry(entry))
+            this.client.emit(events.UL_ACCOUNTS_DELETE, entry);
     }
 
 }
