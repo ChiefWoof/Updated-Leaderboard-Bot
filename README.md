@@ -21,7 +21,7 @@ I'm still a beginner when it comes to coding, so this code will likely be messy.
 
 #### 💎 Recent Update Log:
 ```
-* (September 10, 2021) Placed current files into a "Bot Folder Old" directory to prepare for the updated version of the bot
+* (September 10, 2021) Placed current files into a "Bot Folder Old" (1.0) directory to prepare for the updated version of the bot
 * (August 26, 2020) "New Jersery" corrected to "New Jersey"
 * (August 25, 2020) Bot files uploaded to Github
 * (July 24, 2020) Started using Github
