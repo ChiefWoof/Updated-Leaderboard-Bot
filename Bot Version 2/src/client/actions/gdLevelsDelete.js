@@ -17,11 +17,8 @@ class gdLevelsDeleteAction extends Action {
 
     handle(entry) {
         if (!entry) return;
-        if (this.client.gdLevels.hasLevelID(entry.levelID)) {
-            let v = this.client.gdLevels.get(`${entry.levelID}`);
-            this.client.gdLevels.delete(entry.levelID);
-            this.client.emit(events.GD_LEVELS_DELETE, v);
-        }
+        if (this.client.gdLeaderboardTopManual.deleteEntry(entry))
+            this.client.emit(events.GD_LEVELS_DELETE, entry);
     }
 
 }
