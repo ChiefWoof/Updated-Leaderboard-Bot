@@ -14,7 +14,7 @@ woofin' up Geometry Dash's user leaderboard
 
 *Versions*
 
-> __***UL Bot**__ `2.0.0` (version.update.adjustments)<br>
+> __**UL Bot**__ `2.0.0` (version.update.adjustments)<br>
 > **Node:** `16.9.1`<br>
 > **discord.js:** `13.1.0`
 <br>
