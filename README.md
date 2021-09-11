@@ -14,13 +14,14 @@ woofin' up Geometry Dash's user leaderboard
 
 *Versions*
 
-> **Node:** `14.0.0`<br>
-> **discord.js:** `12.2.0`
+> **Node:** `16.9.1`<br>
+> **discord.js:** `13.1.0`
 <br>
 I'm still a beginner when it comes to coding, so this code will likely be messy. If you know more than me, feel free to help me out by reaching out to me, I may take awhile to fully understand but I will excel at it once I do 😉
 
 #### 💎 Recent Update Log:
 ```
+* (September 10, 2021) Placed current files into a "Bot Folder Old" directory to prepare for the updated version of the bot
 * (August 26, 2020) "New Jersery" corrected to "New Jersey"
 * (August 25, 2020) Bot files uploaded to Github
 * (July 24, 2020) Started using Github
