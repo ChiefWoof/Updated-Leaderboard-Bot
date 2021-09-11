@@ -18,7 +18,7 @@ class gdAccountsDeleteAction extends Action {
     handle(entry) {
         if (!entry) return;
         if (this.client.gdAccounts.deleteEntry(entry))
-            this.client.emit(events.GD_ACCOUNTS_DELETE, v);
+            this.client.emit(events.GD_ACCOUNTS_DELETE, entry);
     }
 
 }
