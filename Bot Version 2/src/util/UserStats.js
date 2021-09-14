@@ -8,10 +8,10 @@ const WEIGHTS = {
     diamonds: 0.5,
     scoins: 100,
     ucoins: 2,
-    demons: 25,
+    demons: 20,
     cp: 50,
 
-    demonsList: 75 // Adds an extra 75 points per completion (demons + demonsList = 100) 
+    demonsList: 80 // Adds extra points per completion (demons + demonsList = 100) 
 
 };
 
