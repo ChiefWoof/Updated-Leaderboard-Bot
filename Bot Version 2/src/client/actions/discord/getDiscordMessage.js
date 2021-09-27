@@ -14,7 +14,7 @@ class getDiscordMessageAction extends Action {
     /**
      * @param {string} channelID the stringified identification number of the channel
      * @param {string} messageID the stringified identification number of the messages
-     * @returns {?Message}
+     * @returns {Message}
      */
 
     async handle(channelID, messageID) {
