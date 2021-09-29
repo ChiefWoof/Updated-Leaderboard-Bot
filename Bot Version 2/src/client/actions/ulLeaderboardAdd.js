@@ -15,9 +15,13 @@ class ulLeaderboardAddAction extends Action {
      * @param {UserOnLeaderboard} entry
      */
 
-    handle(entry) {
-        if (!this.client.ulLeaderboard.add(entry)) return;
-        this.client.emit(events.UL_LEADERBOARD_ADD, entry);
+    handle(entry, randomized=false) {
+        if (randomized) {
+            if (!this.client.ulLeaderboard.addRandom(entry)) return;
+        } else {
+            if (!this.client.ulLeaderboard.add(entry)) return;
+        }
+        this.client.emit(events.UL_LEADERBOARD_ADD, entry, randomized);
     }
 
 }
