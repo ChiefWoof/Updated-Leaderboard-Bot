@@ -1,7 +1,6 @@
 "use strict";
 
 const CacheManager = require("./CacheManager");
-const UserInfo = require("../lib/geometrydashAPI/source/foundation/UserInfo");
 
 /**
  * @description A collection of stored Discord text prefixes
@@ -99,7 +98,7 @@ class PrefixesManager extends CacheManager {
 
     /**
      * @description Attempts to remove a registered entry by the entry object
-     * @param {UserInfo} prefix the prefix
+     * @param {string} prefix the prefix
      * @returns {boolean} Whether the entry was removed
      * @override
      */
