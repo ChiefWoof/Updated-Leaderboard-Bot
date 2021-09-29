@@ -31,7 +31,6 @@ exports.UL_LEADERBOARD_RANDOMIZED = [
     { username: "RobTop" },
     { username: "kr1t1cal" },
     { username: "mbed" },
-    { username: "AutoNick" },
     { username: "Polyatomic" },
     { username: "Viprin" },
     { username: "GK NK 98" },
