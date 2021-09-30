@@ -19,6 +19,12 @@ class BitField {
     }
 
     /**
+     * @returns {Object<string, number>} The indicator bits
+     */
+
+    get indicators() { return this.constructor.INDICATORS; }
+
+    /**
      * @returns {string} The binary string of the bitfield value
      */
 
