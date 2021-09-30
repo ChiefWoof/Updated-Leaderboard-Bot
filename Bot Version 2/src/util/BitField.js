@@ -6,7 +6,7 @@
 
 class BitField {
 
-    constructor(value=BitField.DEFAULT_VALUE) {
+    constructor(value=this.constructor.DEFAULT_VALUE) {
 
         /**
          * @description The bitfield value
@@ -22,7 +22,7 @@ class BitField {
      * @returns {string} The binary string of the bitfield value
      */
 
-    get binary() { return BitField.toBinary(this.value); }
+    get binary() { return this.constructor.toBinary(this.value); }
 
     /**
      * @returns {number[]} The binary bits of the bitfield value
@@ -77,7 +77,7 @@ class BitField {
      * @description Sets the bitfield value to its default value
      */
 
-    reset() { this.value = BitField.DEFAULT_VALUE; return this; }
+    reset() { this.value = this.constructor.DEFAULT_VALUE; return this; }
 
     /**
      * @description Performs adjustments based on an entered bit representation
@@ -148,6 +148,34 @@ class BitField {
         return this;
     }
 
+    /**
+     * @description Creates and returns an object of (indicator, boolean) pairs
+     * @param {Object<string, number>} [obj] The indicator, bit pair object
+     * @returns {Object<string, boolean>}
+     */
+    
+    indications(obj=this.constructor.INDICATORS) {
+        return Object.entries(obj).reduce((v, [indicator, bit]) => {
+            v[indicator] = this.has(bit);
+            return v;
+        }, {});
+    }
+
+    /**
+     * @description Performs adjustments based on an indicator (indicator, boolean) object
+     * @param {Object<string, boolean>} objBools The indicator, boolean pair object
+     * @param {Object<string, number>} [objBits] The indicator, bit pair object
+     * @returns {Object<string, boolean>}
+     */
+    
+    resolveIndications(objBools, objBits=this.constructor.INDICATORS) {
+        for (const [indicator, bitValue] of Object.entries(obj)) {
+            if (indicator in objBits)
+                this.resolveBitBoolean(objBits[indicator], bitValue);
+        }
+        return this;
+    }
+
 }
 
 /**
@@ -156,6 +184,13 @@ class BitField {
  */
 
 BitField.DEFAULT_VALUE = 0;
+
+/**
+ * @description The (indicator, bit) pair object
+ * @type {Object<string, number>}
+ */
+
+BitField.INDICATORS = {};
 
 /**
  * @description The value to be converted to a binary string
