@@ -13,8 +13,9 @@ class BitField {
          * @type {number}
          */
 
-        this.value = value;
+        this.value;
 
+        this.resolve(value);
     }
 
     /**
