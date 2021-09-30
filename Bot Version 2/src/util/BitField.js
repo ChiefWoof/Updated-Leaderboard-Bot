@@ -59,11 +59,4 @@ class BitField {
 
 BitField.DEFAULT_VALUE = 0;
 
-/**
- * @description The individual notch
- * @type {Object}
- */
-
-BitField.INDICATORS = {};
-
 module.exports = BitField;
