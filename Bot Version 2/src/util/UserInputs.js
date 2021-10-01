@@ -2,6 +2,11 @@
 
 const BitField = require("./BitField");
 
+/**
+ * @description Options for Discord user inputs
+ * @extends {BitField}
+ */
+
 class UserInputOptions extends BitField {
 
     /**
@@ -11,7 +16,7 @@ class UserInputOptions extends BitField {
      */
 
     get ACCEPTING() { return this.has(this.indicators.ACCEPTING); }
-    set ACCEPTING(bool) { return this.resolveBitBoolean((this.indicators.ACCEPTING, bool)); }
+    set ACCEPTING(bool) { return this.resolveBitBoolean(this.indicators.ACCEPTING, bool); }
 
     /**
      * @description Whether the user should be able to do actions through chatting
@@ -20,7 +25,7 @@ class UserInputOptions extends BitField {
      */
 
     get CHAT() { return this.has(this.indicators.CHAT); }
-    set CHAT(bool) { return this.resolveBitBoolean((this.indicators.CHAT, bool)); }
+    set CHAT(bool) { return this.resolveBitBoolean(this.indicators.CHAT, bool); }
 
     /**
      * @description Whether the user should be able to do actions through reactions
@@ -29,7 +34,7 @@ class UserInputOptions extends BitField {
      */
 
     get REACTIONS() { return this.has(this.indicators.REACTIONS); }
-    set REACTIONS(bool) { return this.resolveBitBoolean((this.indicators.REACTIONS, bool)); }
+    set REACTIONS(bool) { return this.resolveBitBoolean(this.indicators.REACTIONS, bool); }
 
     /**
      * @description Whether the user should be able to do actions through buttons
@@ -38,7 +43,7 @@ class UserInputOptions extends BitField {
      */
 
     get BUTTONS() { return this.has(this.indicators.BUTTONS); }
-    set BUTTONS(bool) { return this.resolveBitBoolean((this.indicators.BUTTONS, bool)); }
+    set BUTTONS(bool) { return this.resolveBitBoolean(this.indicators.BUTTONS, bool); }
 
 }
 
@@ -50,7 +55,7 @@ UserInputOptions.INDICATORS = {
     // Specific
     CHAT: 1 << 1,
     REACTIONS: 1 << 2,
-    BUTTONS: 1 << 3,
+    BUTTONS: 1 << 3
 
 };
 
