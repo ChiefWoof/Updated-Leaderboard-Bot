@@ -13,7 +13,7 @@ class BitField {
          * @type {number}
          */
 
-        this.value = this.constructor.DEFAULT_VALUE;
+        this.value;
 
         this.resolve(value);
     }
@@ -96,6 +96,8 @@ class BitField {
     resolve(bit) {
         if (bit instanceof BitField)
             this.resolve(bit.value);
+        else if (typeof bit === "undefined")
+            this.reset();
         else if (typeof bit === "number")
             this.value = bit;
         else if (typeof bit === "string")
