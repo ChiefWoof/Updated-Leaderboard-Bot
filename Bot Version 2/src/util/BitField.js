@@ -6,14 +6,14 @@
 
 class BitField {
 
-    constructor(value=this.constructor.DEFAULT_VALUE) {
+    constructor(value) {
 
         /**
          * @description The bitfield value
          * @type {number}
          */
 
-        this.value;
+        this.value = this.constructor.DEFAULT_VALUE;
 
         this.resolve(value);
     }
