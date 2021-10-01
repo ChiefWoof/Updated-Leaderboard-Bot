@@ -94,20 +94,16 @@ class BitField {
      */
 
     resolve(bit) {
-        switch(typeof bit) {
-
-            case "string": { this.resolveBytes(...bit); break; }
-            case "number": { this.value = bit; break; }
-            
-            default: {
-                if (Object.prototype.toString(bit) === "[object Object]")
-                    this.resolveBitObject(bit);
-                if (Array.isArray(bit))
-                    this.resolveBytes(...bit);
-                break;
-            }
-
-        }
+        if (bit instanceof BitField)
+            this.resolve(bit.value);
+        else if (typeof bit === "number")
+            this.value = bit;
+        else if (typeof bit === "string")
+            this.resolveBytes(...bit);
+        else if (Object.prototype.toString(bit) === "[object Object]")
+            this.resolveBitObject(bit);
+        else if (Array.isArray(bit))
+            this.resolveBytes(...bit);
         return this;
     }
 
