@@ -15,7 +15,7 @@ class CallbackManager extends CacheManager {
      * @returns {boolean} Whether it was successfully ran
      */
 
-    run(id) { return this.has(`${id}`) && this.get(`${id}`)(); }
+    run(id, ...args) { return this.has(`${id}`) && this.get(`${id}`)(...args); }
     
     /**
      * @description Attempts to register entries in an object into the cache
