@@ -5,6 +5,15 @@ const BitField = require("./BitField");
 class UserInputOptions extends BitField {
 
     /**
+     * @description Whether inputs should be accepted in general
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get ACCEPTING() { return this.has(this.indicators.ACCEPTING); }
+    set ACCEPTING(bool) { return this.resolveBitBoolean((this.indicators.ACCEPTING, bool)); }
+
+    /**
      * @description Whether the user should be able to do actions through chatting
      * @type {boolean}
      * @param {boolean} bool
@@ -34,9 +43,15 @@ class UserInputOptions extends BitField {
 }
 
 UserInputOptions.INDICATORS = {
-    CHAT: 1 << 0,
-    REACTIONS: 1 << 1,
-    BUTTONS: 1 << 2,
+
+    // General
+    ACCEPTING: 1 << 0,
+
+    // Specific
+    CHAT: 1 << 1,
+    REACTIONS: 1 << 2,
+    BUTTONS: 1 << 3,
+
 };
 
 module.exports = UserInputOptions;
