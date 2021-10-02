@@ -5,18 +5,26 @@ const Callback = require("../foundation/Callback");
 
 /**
  * @description A collection of stored callback functions
- * @extends {Map<string, () => boolean>}
+ * @extends {Map<string, Callback>}
  */
 
 class CallbackManager extends CacheManager {
 
     /**
-     * @description Attempts to run an refresh id
+     * @description Attempts to run a refresh id
      * @param {string} id 
      * @returns {boolean} Whether it was successfully ran
      */
 
-    run(id, ...args) { return this.has(`${id}`) && this.get(`${id}`)(...args); }
+    run(id, ...args) { return this.has(`${id}`) && this.get(`${id}`).run(...args); }
+
+    /**
+     * @description Attempts to run a refresh id with the "runConditioned" function
+     * @param {string} id 
+     * @returns {boolean} Whether it was successfully ran
+     */
+
+    runConditioned(id, ...args) { return this.has(`${id}`) && this.get(`${id}`).runConditioned(...args); }
     
     /**
      * @description Attempts to register entries in an object into the cache
