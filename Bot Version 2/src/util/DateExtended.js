@@ -7,18 +7,32 @@
 class DateExtended extends Date {
 
     /**
-     * @description The amount of miliseconds the time is off from UTC time
-     * @type {number}
+     * @description The name of the day of the week
+     * @type {string}
      */
 
     get day() { return DateExtended.days[this.getDay()]; }
 
     /**
-     * @description The amount of miliseconds the time is off from UTC time
+     * @description The day of the month
      * @type {number}
      */
 
+    get dayOfMonth() { return this.getDate(); }
+
+    /**
+     * @description The name of the month
+     * @type {string}
+     */
+
     get month() { return DateExtended.months[this.getMonth()]; }
+
+    /**
+     * @description The year
+     * @type {number}
+     */
+
+    get year() { return this.getFullYear(); }
 
     /**
      * @description The amount of miliseconds the time is off from UTC time
