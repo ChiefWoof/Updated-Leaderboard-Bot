@@ -1,6 +1,7 @@
 "use strict";
 
 const CacheManager = require("./CacheManager");
+const Callback = require("../foundation/Callback");
 
 /**
  * @description A collection of stored callback functions
@@ -29,6 +30,28 @@ class CallbackManager extends CacheManager {
             v[aK] = this.add(aK, aV);
             return v;
         }, {});
+    }
+    
+    /**
+     * @description Attempts to register data into the cache by a stringified identification number
+     * @param {string} id 
+     * @param {*} data 
+     * @returns {boolean} Whether the entry was added
+     */
+
+    add(id, data) {
+        return super.add(id, data instanceof Callback ? data : new Callback(data));
+    }
+    
+    /**
+     * @description Attempts to update a entry's data
+     * @param {string} id 
+     * @param {*} data 
+     * @returns {boolean} Whether the entry was updated
+     */
+
+    update(id, data) {
+        return super.update(id, data instanceof Callback ? data : new Callback(data));
     }
 
 }
