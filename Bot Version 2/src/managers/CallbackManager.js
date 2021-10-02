@@ -35,7 +35,7 @@ class CallbackManager extends CacheManager {
     /**
      * @description Attempts to register data into the cache by a stringified identification number
      * @param {string} id 
-     * @param {*} data 
+     * @param {Callback|Function} data 
      * @returns {boolean} Whether the entry was added
      */
 
@@ -46,7 +46,7 @@ class CallbackManager extends CacheManager {
     /**
      * @description Attempts to update a entry's data
      * @param {string} id 
-     * @param {*} data 
+     * @param {Callback|Function} data 
      * @returns {boolean} Whether the entry was updated
      */
 
