@@ -6,14 +6,21 @@
 
 class BitField {
 
-    constructor(value) {
+    constructor(value, defalutValue=this.constructor.DEFAULT_VALUE) {
 
         /**
          * @description The bitfield value
          * @type {number}
          */
 
-        this.value;
+        this.value = defalutValue;
+
+        /**
+         * @description The default bitfield value
+         * @type {number}
+         */
+
+        this.defalutValue = defalutValue;
 
         this.resolve(value);
     }
@@ -83,7 +90,7 @@ class BitField {
      * @description Sets the bitfield value to its default value
      */
 
-    reset() { this.value = this.constructor.DEFAULT_VALUE; return this; }
+    reset() { this.resolve(this.defalutValue); return this; }
 
     /**
      * @description Performs adjustments based on an entered bit representation
@@ -179,6 +186,18 @@ class BitField {
         }
         return this;
     }
+
+    /**
+     * @description Disables everything, setting the bitfield value to 0
+     */
+
+    disable() { return this.resolve(0); }
+
+    /**
+     * @description Enalbes everything, setting the bitfield value to the maximum based on the indicators
+     */
+
+    enable() { return this.add(...Object.values(this.constructor.INDICATORS)); }
 
 }
 
