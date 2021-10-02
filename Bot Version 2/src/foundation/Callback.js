@@ -87,10 +87,10 @@ class Callback {
      * @returns {Promise}
      */
 
-    async run() {
+    async run(...args) {
         this.runCount++;
         this.lastRan = new Date();
-        return await Promise.all([this.callback()]).then(() => {
+        return await Promise.all([this.callback(...args)]).then(() => {
             this.lastCompleted = new Date();
             this.completedCount++;
         });
@@ -101,9 +101,9 @@ class Callback {
      * @returns {boolean} Whether the callback was ran
      */
 
-    async runConditioned() {
+    async runConditioned(...args) {
         if (this.canRun()) {
-            await this.run();
+            await this.run(...args);
             return true;
         }
         return false;
