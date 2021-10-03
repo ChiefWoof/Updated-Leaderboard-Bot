@@ -21,11 +21,11 @@ class ChatCommand {
             options = undefined;
         }
 
-        this.build(options);
+        this.build();
         this.resolve(str, { prefixes: options.prefixes, flags: options.flags });
     }
 
-    build(options={}) {
+    build() {
 
         /**
          * @description The prefix used to begin the command
@@ -84,6 +84,84 @@ class ChatCommand {
         this.mentionedChannels = [];
 
         return this;
+    }
+
+    /**
+     * @returns {boolean} Whether a prefix was specified
+     */
+
+    get hasPrefix() { return this.prefix !== null; }
+
+    /**
+     * @returns {boolean} Whether a caller was specified
+     */
+
+    get hasCaller() { return this.caller !== null; }
+
+    /**
+     * @returns {boolean} Whether a caller was specified
+     */
+
+    get isFlagged() { return this.flagged.length !== 0; }
+    
+    /**
+     * @description Determines if the instance has all of the entered flags
+     * @param  {...(string | RegExp)} args 
+     * @returns {boolean} Whether the instance contains all of the entered flags
+     */
+
+    hasFlags(...args) {
+        return args.every(f => this.flagged.some(a => f instanceof RegExp ? f.test(a) : f === a));
+    }
+    
+    /**
+     * @description Determines if the instance has all of the entered args
+     * @param  {...(string | RegExp)} args 
+     * @returns {boolean} Whether the instance contains all of the entered args
+     */
+
+    hasArgs(...args) {
+        return args.every(f => this.args.some(a => f instanceof RegExp ? f.test(a) : f === a));
+    }
+    
+    /**
+     * @description Determines if the instance has all of the entered args in the filtered args
+     * @param  {...(string | RegExp)} args 
+     * @returns {boolean} Whether the instance contains all of the entered args in the filtered args
+     */
+
+    hasArgsFiltered(...args) {
+        return args.every(f => this.argsFiltered.some(a => f instanceof RegExp ? f.test(a) : f === a));
+    }
+    
+    /**
+     * @description Determines if the instance has all of the entered users
+     * @param  {...(string | RegExp)} args 
+     * @returns {boolean} Whether the instance contains all of the entered users
+     */
+
+    hasMentionedUsers(...args) {
+        return args.every(f => this.mentionedUsers.some(a => f instanceof RegExp ? f.test(a) : f === a));
+    }
+    
+    /**
+     * @description Determines if the instance has all of the entered roles
+     * @param  {...(string | RegExp)} args 
+     * @returns {boolean} Whether the instance contains all of the entered roles
+     */
+
+    hasMentionedRoles(...args) {
+        return args.every(f => this.mentionedRoles.some(a => f instanceof RegExp ? f.test(a) : f === a));
+    }
+    
+    /**
+     * @description Determines if the instance has all of the entered channels
+     * @param  {...(string | RegExp)} args 
+     * @returns {boolean} Whether the instance contains all of the entered channels
+     */
+
+    hasMentionedChannels(...args) {
+        return args.every(f => this.mentionedChannels.some(a => f instanceof RegExp ? f.test(a) : f === a));
     }
 
     /**
