@@ -1,27 +1,27 @@
 "use strict";
 
 const EventEmitter = require("events");
-const UserInputOptions = require("../util/UserInputs");
+const UserInteractionOptions = require("../util/UserInteractions");
 
 const {
     Discord: {
         users: {
-            inputManagerEvents: INPUT_EVENTS
+            interactionManagerEvents: INTERACTION_EVENTS
         }
     }
 } = require("../util/Constants");
 
 /**
- * @description A manager to handle the different types of inputs a Discord user could use
+ * @description A manager to handle the different types of interactions a Discord user could use
  * to interact with the Client
  * @extends {EventEmitter}
  */
 
-class InputManager extends EventEmitter {
+class InteractionManager extends EventEmitter {
 
     /**
      * @constructor
-     * @param {UserInputOptions|number|string|Object<string, boolean>} settings 
+     * @param {UserInteractionOptions|number|string|Object<string, boolean>} settings 
      * @param {Object} [options]
      * @param {?() => boolean} [options.sentMessageCondition=null]
      * @param {?() => boolean} [options.sentReactionCondition=null]
@@ -37,10 +37,10 @@ class InputManager extends EventEmitter {
 
         /**
          * @description The settings for the manager
-         * @type {UserInputOptions}
+         * @type {UserInteractionOptions}
          */
         
-        this.settings = settings instanceof UserInputOptions ? settings : new UserInputOptions(settings);
+        this.settings = settings instanceof UserInteractionOptions ? settings : new UserInteractionOptions(settings);
 
         /**
          * @description The optional condition to apply to sent messages
@@ -63,11 +63,23 @@ class InputManager extends EventEmitter {
 
         this.sentButtonCondition = sentButtonCondition;
 
-        this.on(INPUT_EVENTS.SENT_MESSAGE, this.sentMessageHandler);
-        this.on(INPUT_EVENTS.SENT_REACTION, this.sentReactionHandler);
-        this.on(INPUT_EVENTS.SENT_BUTTON, this.sentButtonHandler);
+        this.on(InteractionManager.SENT_MESSAGE, this.sentMessageHandler);
+        this.on(InteractionManager.SENT_REACTION, this.sentReactionHandler);
+        this.on(InteractionManager.SENT_BUTTON, this.sentButtonHandler);
 
     }
+
+    /**
+     * @returns {INTERACTION_EVENTS}
+     */
+
+    get events() { return InteractionManager.EVENTS; }
+
+    /**
+     * @returns {InteractionManager.REJECTION_REASONS}
+     */
+
+    get rejections() { return InteractionManager.REJECTION_REASONS; }
 
     sentHandler({
         accepting = this.settings.ACCEPTING,
@@ -77,17 +89,12 @@ class InputManager extends EventEmitter {
         eventAccepted = null
     }={}, ...args) {
 
-        function reject(reason=InputManager.REJECTION_REASONS.UNSPECIFIED) {
-            if (eventRejected)
-                this.emit(eventRejected, reason, ...args);
-        }
-
         if (!accepting)
-            reject(InputManager.REJECTION_REASONS.NOT_ACCEPTING);
+            this.reject(eventRejected, InteractionManager.REJECTION_REASONS.NOT_ACCEPTING);
         else if (!toggle)
-            reject(InputManager.REJECTION_REASONS.DISABLED);
+            this.reject(eventRejected, InteractionManager.REJECTION_REASONS.DISABLED);
         else if (typeof conditoin === "function" && !condition(...args))
-            reject(InputManager.REJECTION_REASONS.FAILED_CONDITION);
+            this.reject(eventRejected, InteractionManager.REJECTION_REASONS.FAILED_CONDITION);
         else {
             if (eventAccepted) this.emit(eventAccepted, ...args);
             return true;
@@ -96,12 +103,18 @@ class InputManager extends EventEmitter {
         return false;
     }
 
+    reject(eventName, reason=InteractionManager.REJECTION_REASONS.UNSPECIFIED, ...args) {
+        if (eventName)
+            this.emit(eventName, reason, ...args);
+        return this;
+    }
+
     sentMessageHandler(...args) {
         return this.sentHandler({
             toggle: this.settings.CHAT,
             condition: this.sentMessageCondition,
-            eventRejected: INPUT_EVENTS.REJECTED_MESSAGE,
-            eventAccepted: INPUT_EVENTS.ACCEPTED_MESSAGE
+            eventRejected: InteractionManager.REJECTED_MESSAGE,
+            eventAccepted: InteractionManager.ACCEPTED_MESSAGE
         }, ...args);
     }
 
@@ -109,8 +122,8 @@ class InputManager extends EventEmitter {
         return this.sentHandler({
             toggle: this.settings.REACTIONS,
             condition: this.sentReactionCondition,
-            eventRejected: INPUT_EVENTS.REJECTED_REACTION,
-            eventAccepted: INPUT_EVENTS.ACCEPTED_REACTION
+            eventRejected: InteractionManager.REJECTED_REACTION,
+            eventAccepted: InteractionManager.ACCEPTED_REACTION
         }, ...args);
     }
 
@@ -118,24 +131,24 @@ class InputManager extends EventEmitter {
         return this.sentHandler({
             toggle: this.settings.BUTTONS,
             condition: this.sentButtonCondition,
-            eventRejected: INPUT_EVENTS.REJECTED_BUTTON,
-            eventAccepted: INPUT_EVENTS.ACCEPTED_BUTTON
+            eventRejected: InteractionManager.REJECTED_BUTTON,
+            eventAccepted: InteractionManager.ACCEPTED_BUTTON
         }, ...args);
     }
 
 }
 
-InputManager.EVENTS = INPUT_EVENTS;
+InteractionManager.EVENTS = INTERACTION_EVENTS;
 
 /**
- * @description ID-based reasons an input may be rejected
+ * @description ID-based reasons an interaction may be rejected
  */
 
-InputManager.REJECTION_REASONS = {
+InteractionManager.REJECTION_REASONS = {
     UNSPECIFIED: 0,
     NOT_ACCEPTING: 1,
     DISABLED: 2,
     FAILED_CONDITION: 3
 };
 
-module.exports = InputManager;
+module.exports = InteractionManager;
