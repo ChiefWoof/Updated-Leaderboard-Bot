@@ -9,6 +9,7 @@ class ChatCommand {
     /**
      * @constructor
      * @param {Object} [options={}]
+     * @param {(string | RegExp)[]} [options.prefixes=[]] Prefixes to start the command string with
      * @param {(string | RegExp)[]} [options.flags] Key words to be flagged when used
      * @param {?string} [str=null] 
      */
@@ -21,10 +22,17 @@ class ChatCommand {
         }
 
         this.build(options);
-        this.resolve(str, options.flags);
+        this.resolve(str, { prefixes: options.prefixes, flags: options.flags });
     }
 
     build(options={}) {
+
+        /**
+         * @description The prefix used to begin the command
+         * @type {?string}
+         */
+
+        this.prefix = null;
 
         /**
          * @description The name of the command to use
@@ -81,11 +89,30 @@ class ChatCommand {
     /**
      * @description Setups the instance based on the entered string
      * @param {*} str 
-     * @param {(string | RegExp)[]} [flags=[]] Certain words to flag
+     * @param {Object} [options]
+     * @param {(string | RegExp)[]} [options.prefixes=[]] Prefixes to start the command string with
+     * @param {(string | RegExp)[]} [options.flags=[]] Certain words to flag
      */
 
-    resolve(str, flags=[]) {
+    resolve(str, { prefixes=[], flags=[] }={}) {
         if (typeof str === "string") {
+
+            this.prefix = prefixes.reduce((v, f) => {
+                if (v) return;
+
+                if (f instanceof RegExp) {
+                    if (f.test(str)) v = str.match(f)[0];
+                } else if (str.startsWith(f)) {
+                    v = f;
+                }
+
+                if (v) {
+                    str = str.substr(v.length);
+                }
+
+                return v;
+            }, null);
+
             str = str.replace(/^ {0,}/, "").split(" ");
 
             this.caller = str[0] || null;
