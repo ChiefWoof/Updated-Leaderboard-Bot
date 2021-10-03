@@ -11,20 +11,34 @@ const CacheManager = require("./CacheManager");
 class PrefixesManager extends CacheManager {
 
     /**
-     * @param {number} id the playerID to look for
-     * @returns {number} -1 or the accountID found
+     * @returns {string[]} An array of prefixes
+     */
+
+    get prefixes() { return [...this.values()]; }
+
+    /**
+     * @returns {RegExp[]} An array of prefixes as RegExp for ChatCommands
+     */
+
+    get prefixesRegexDiscord() { return [...this.values()].map(a => new RegExp(`^(${a})`, "i")); }
+
+    /**
+     * @param {string} prefix the prefix to look for
+     * @returns {number} -1 or the found index
      */
 
     findIndexByPrefix(prefix) { return [...this.keys()].find(k => `${this.get(k)}` === `${prefix}`); }
 
     /**
-     * @returns {boolean} Whether a playerID exists in the cache
+     * @param {string} prefix the prefix to look for
+     * @returns {boolean} Whether a prefix exists in the cache
      */
 
-    hasPrefix(id) { return this.findIndexByPrefix(id) !== undefined; }
+    hasPrefix(prefix) { return this.findIndexByPrefix(prefix) !== undefined; }
 
     /**
-     * @returns {boolean} Whether an accountID exists in the cache
+     * @param {string} index the index to look for
+     * @returns {boolean} Whether the index exists in the cache
      */
 
     hasIndex(id) { return this.has(`${id}`); }
@@ -50,8 +64,7 @@ class PrefixesManager extends CacheManager {
     
     /**
      * @description Attempts to register entries in an object into the cache
-     * @param {string} id 
-     * @param {string} prefix 
+     * @param {Object<number, string>>} obj
      * @returns {Object<string, boolean>} Which entries were addd
      */
 
