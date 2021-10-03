@@ -178,7 +178,7 @@ class ChatCommand {
         if (typeof str === "string") {
 
             this.prefix = prefixes.reduce((v, f) => {
-                if (v) return;
+                if (v) return v;
 
                 if (f instanceof RegExp) {
                     if (f.test(str)) v = str.match(f)[0];
@@ -196,7 +196,7 @@ class ChatCommand {
             str = str.replace(/^ {0,}/, "");
 
             this.caller = callers.reduce((v, f) => {
-                if (v) return;
+                if (v) return v;
 
                 if (f instanceof RegExp) {
                     if (f.test(str)) v = str.match(f)[0];
