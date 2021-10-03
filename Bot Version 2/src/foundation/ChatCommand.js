@@ -259,7 +259,7 @@ class ChatCommand {
 }
 
 ChatCommand.DISCORD_MENTION_USER_REGEX = /^(@\d{1,}|<@\d{1,}>)$/;
-ChatCommand.DISCORD_MENTION_ROLE_REGEX = /^(#\d{1,}|<#\d{1,}>)$/;
-ChatCommand.DISCORD_MENTION_CHANNEL_REGEX = /^(@&\d{1,}|<@&\d{1,}>)$/;
+ChatCommand.DISCORD_MENTION_ROLE_REGEX = /^(@&\d{1,}|<@&\d{1,}>)$/;
+ChatCommand.DISCORD_MENTION_CHANNEL_REGEX = /^(#\d{1,}|<#\d{1,}>)$/;
 
 module.exports = ChatCommand;
