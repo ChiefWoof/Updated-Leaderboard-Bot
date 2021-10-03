@@ -9,7 +9,7 @@ class ChatCommand {
     /**
      * @constructor
      * @param {Object} [options={}]
-     * @param {string[]} [options.flags] Key words to be flagged when used
+     * @param {(string | RegExp)[]} [options.flags] Key words to be flagged when used
      * @param {?string} [str=null] 
      */
 
