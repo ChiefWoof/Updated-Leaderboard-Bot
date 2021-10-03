@@ -3,14 +3,14 @@
 const BitField = require("./BitField");
 
 /**
- * @description Options for Discord user inputs
+ * @description Options for Discord user interactions
  * @extends {BitField}
  */
 
-class UserInputOptions extends BitField {
+class UserInteractionOptions extends BitField {
 
     /**
-     * @description Whether inputs should be accepted in general
+     * @description Whether interactions should be accepted in general
      * @type {boolean}
      * @param {boolean} bool
      */
@@ -47,7 +47,7 @@ class UserInputOptions extends BitField {
 
 }
 
-UserInputOptions.INDICATORS = {
+UserInteractionOptions.INDICATORS = {
 
     // General
     ACCEPTING: 1 << 0,
@@ -59,4 +59,4 @@ UserInputOptions.INDICATORS = {
 
 };
 
-module.exports = UserInputOptions;
+module.exports = UserInteractionOptions;
