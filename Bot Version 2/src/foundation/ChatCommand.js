@@ -10,6 +10,7 @@ class ChatCommand {
      * @constructor
      * @param {Object} [options={}]
      * @param {(string | RegExp)[]} [options.prefixes=[]] Prefixes to start the command string with
+     * @param {(string | RegExp)[]} [options.callers=[]] Callers that denote the command to use
      * @param {(string | RegExp)[]} [options.flags] Key words to be flagged when used
      * @param {?string} [str=null] 
      */
@@ -22,7 +23,7 @@ class ChatCommand {
         }
 
         this.build();
-        this.resolve(str, { prefixes: options.prefixes, flags: options.flags });
+        this.resolve(str, { prefixes: options.prefixes, callers: options.callers, flags: options.flags });
     }
 
     build() {
@@ -169,10 +170,11 @@ class ChatCommand {
      * @param {*} str 
      * @param {Object} [options]
      * @param {(string | RegExp)[]} [options.prefixes=[]] Prefixes to start the command string with
+     * @param {(string | RegExp)[]} [options.callers=[]] Callers that denote the command to use
      * @param {(string | RegExp)[]} [options.flags=[]] Certain words to flag
      */
 
-    resolve(str, { prefixes=[], flags=[] }={}) {
+    resolve(str, { prefixes=[], callers=[], flags=[] }={}) {
         if (typeof str === "string") {
 
             this.prefix = prefixes.reduce((v, f) => {
@@ -191,10 +193,25 @@ class ChatCommand {
                 return v;
             }, null);
 
-            str = str.replace(/^ {0,}/, "").split(" ");
+            str = str.replace(/^ {0,}/, "");
 
-            this.caller = str[0] || null;
-            this.args = str.slice(1);
+            this.caller = callers.reduce((v, f) => {
+                if (v) return;
+
+                if (f instanceof RegExp) {
+                    if (f.test(str)) v = str.match(f)[0];
+                } else if (str.startsWith(f)) {
+                    v = f;
+                }
+
+                if (v) {
+                    str = str.substr(v.length);
+                }
+
+                return v;
+            }, null);
+
+            this.args = str.split(" ");
 
             let data = this.args.reduce((v, a) => {
                 if (!(v.flagged.includes(a) || flags.findIndex(f => f instanceof RegExp ? f.test(a) : f === a) === -1))
