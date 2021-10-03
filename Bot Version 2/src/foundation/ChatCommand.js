@@ -104,6 +104,18 @@ class ChatCommand {
      */
 
     get isFlagged() { return this.flagged.length !== 0; }
+
+    /**
+     * @returns {string} A string that combines the args with a single space between them
+     */
+
+    get argsString() { return this.args.join(" "); }
+
+    /**
+     * @returns {string} A string that combines the argsFiltered with a single space between them
+     */
+
+    get argsFilteredString() { return this.argsFiltered.join(" "); }
     
     /**
      * @description Determines if the instance has all of the entered flags
@@ -211,6 +223,7 @@ class ChatCommand {
                 return v;
             }, null);
 
+            str = str.replace(/^ {0,1}/, "");
             this.args = str.split(" ");
 
             let data = this.args.reduce((v, a) => {
