@@ -30,7 +30,7 @@ class Command {
         this.handler(data);
     }
 
-    build() {}
+    build() { return this; }
 
     /**
      * @param {ChatCommand} data
