@@ -90,10 +90,10 @@ class Callback {
     async run(...args) {
         this.runCount++;
         this.lastRan = new Date();
-        return await Promise.all([this.callback(...args)]).then(() => {
-            this.lastCompleted = new Date();
-            this.completedCount++;
-        });
+        const res = await this.callback(...args);
+        this.lastCompleted = new Date();
+        this.completedCount++;
+        return res;
     }
     
     /**
@@ -103,10 +103,8 @@ class Callback {
 
     async runConditioned(...args) {
         if (this.canRun()) {
-            await this.run(...args);
-            return true;
+            return await this.run(...args);
         }
-        return false;
     }
 
 }
