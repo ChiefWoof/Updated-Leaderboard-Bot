@@ -51,6 +51,12 @@ class Command {
     handlerMessage(data) { return this; }
 
     /**
+     * @description The handler for when the command is ready for use
+     */
+
+    handlerReady() { return this; }
+
+    /**
      * 
      * @param {*} data 
      */
@@ -59,6 +65,7 @@ class Command {
         if (data instanceof ChatCommandMessage) this.handlerChatCommandMessage(data);
         if (data instanceof Message) this.handlerMessage(data);
         if (data instanceof ChatCommand) this.handlerChatCommand(data);
+        this.handlerReady();
         return this;
     }
 
