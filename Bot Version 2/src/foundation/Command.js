@@ -33,40 +33,43 @@ class Command {
     build() { return this; }
 
     /**
+     * @async
      * @param {ChatCommandMessage} data
      */
 
-    handlerChatCommandMessage(data) { return this; }
+    async handlerChatCommandMessage(data) { return this; }
 
     /**
+     * @async
      * @param {ChatCommand} data
      */
 
-    handlerChatCommand(data) { return this; }
+    async handlerChatCommand(data) { return this; }
 
     /**
+     * @async
      * @param {Message} data
      */
 
-    handlerMessage(data) { return this; }
+    async handlerMessage(data) { return this; }
 
     /**
+     * @async
      * @description The handler for when the command is ready for use
      */
 
-    handlerReady() { return this; }
+    async handlerReady() { return this; }
 
     /**
-     * 
+     * @async
      * @param {*} data 
      */
 
-    handler(data) {
-        if (data instanceof ChatCommandMessage) this.handlerChatCommandMessage(data);
-        if (data instanceof Message) this.handlerMessage(data);
-        if (data instanceof ChatCommand) this.handlerChatCommand(data);
-        this.handlerReady();
-        return this;
+    async handler(data) {
+        if (data instanceof ChatCommandMessage) await this.handlerChatCommandMessage(data);
+        if (data instanceof Message) await this.handlerMessage(data);
+        if (data instanceof ChatCommand) await this.handlerChatCommand(data);
+        return await this.handlerReady();
     }
 
 }
