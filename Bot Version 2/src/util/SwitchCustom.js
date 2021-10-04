@@ -2,7 +2,7 @@
 
 /**
  * @description A customizable version of the "Switch" structure
- * that supports strings, numbers, BigInts, functions, and RegExps
+ * that supports strings, numbers, BigInts, booleans, functions, and RegExps
  * @extends {Array}
  */
 
@@ -31,11 +31,11 @@ class SwitchCustom extends Array {
     switch(keyValue, defaultValue=this.defaultValue) {
         return this.reduce((v, [a, b]) => {
             if (!v.matched) {
-                if ([ "string", "number", "bigint" ].includes(typeof a) && typeof a === typeof keyValue)
+                if ([ "string", "number", "bigint", "boolean" ].includes(typeof a) && typeof a === typeof keyValue)
                     { if (a === keyValue) return { value: b, matched: true }; }
                 else if (typeof a === "function")
                     { if (a(keyValue) === true) return { value: b, matched: true}; }
-                else if (a instanceof RegExp && [ "string", "number", "bigint" ].includes(typeof b))
+                else if (a instanceof RegExp && [ "string", "number", "bigint", "boolean" ].includes(typeof b))
                     { if (a.test(keyValue)) return { value: b, matched: true }; }
             }
             return v;
@@ -44,22 +44,22 @@ class SwitchCustom extends Array {
 
     /**
      * @description Attempts to add a [key, value] entry else produces an error
-     * @param {key: string | number | BigInt | (() => boolean) | RegExp, value: ?*} key the value to be compared to
+     * @param {key: string | number | BigInt | boolean | (() => boolean) | RegExp, value: ?*} key the value to be compared to
      * @param {*} value the value to return in the switch
      */
 
     register(key, value) {
         if (!([
-            "string", "number", "bigint", "function"
+            "string", "number", "bigint", "boolean", "function"
         ].includes(typeof key) || key instanceof RegExp))
-            throw new Error(`Entry key has an invalid type (${typeof key}). Acceptable types are: strings, numbers, BigInts, functions, and regular expressions`);
+            throw new Error(`Entry key has an invalid type (${typeof key}). Acceptable types are: strings, numbers, BigInts, booleans, functions, and regular expressions`);
         this.push([key, value]);
         return this;
     }
 
     /**
      * @description Attempts to add [key, value] entries else produces an error
-     * @param {...[key: string | number | BigInt | (() => boolean) | RegExp, value: ?*]} entries
+     * @param {...[key: string | number | BigInt | boolean | (() => boolean) | RegExp, value: ?*]} entries
      */
 
     registerEntries(...entries) {
@@ -69,7 +69,7 @@ class SwitchCustom extends Array {
             if (![1, 2].includes(entry.length))
                 throw new Error(`Entry at index ${i} has an invalid length (${entry.length}). Must be 1 or 2`);
             try { this.register(...entry); }
-            catch { throw new Error(`Entry at index ${i} has an invalid type (${typeof key}). Acceptable types are: strings, numbers, BigInts, functions, and regular expressions`); }
+            catch { throw new Error(`Entry at index ${i} has an invalid type (${typeof key}). Acceptable types are: strings, numbers, BigInts, booleans, functions, and regular expressions`); }
         });
         return this;
     }
