@@ -33,6 +33,12 @@ class Command {
     build() { return this; }
 
     /**
+     * @param {ChatCommandMessage} data
+     */
+
+    handlerChatCommandMessage(data) { return this; }
+
+    /**
      * @param {ChatCommand} data
      */
 
@@ -50,10 +56,7 @@ class Command {
      */
 
     handler(data) {
-        if (data instanceof ChatCommandMessage) {
-            this.handler(data.message);
-            this.handler(data.command);
-        }
+        if (data instanceof ChatCommandMessage) this.handlerChatCommandMessage(data);
         if (data instanceof Message) this.handlerMessage(data);
         if (data instanceof ChatCommand) this.handlerChatCommand(data);
         return this;
