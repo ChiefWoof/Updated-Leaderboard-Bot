@@ -10,13 +10,22 @@ const BitField = require("./BitField");
 class UserStatusGD extends BitField {
 
     /**
+     * @description Whether the user has an account
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get ACCOUNT() { return this.has(this.indicators.ACCOUNT); }
+    set ACCOUNT(bool) { return this.resolveBitBoolean(this.indicators.ACCOUNT, bool); }
+
+    /**
      * @description Whether the user has been awarded creator points
      * @type {boolean}
      * @param {boolean} bool
      */
 
-    get HAS_CP() { return this.has(this.indicators.HAS_CP); }
-    set HAS_CP(bool) { return this.resolveBitBoolean(this.indicators.HAS_CP, bool); }
+    get CP() { return this.has(this.indicators.CP); }
+    set CP(bool) { return this.resolveBitBoolean(this.indicators.CP, bool); }
 
     /**
      * @description Whether the user is an in-game moderator
@@ -104,7 +113,8 @@ class UserStatusGD extends BitField {
 UserStatusGD.INDICATORS = {
 
     // General (0 - 9)
-    HAS_CP: 1 << 0,
+    ACCOUNT: 1 << 0,
+    CP: 1 << 1,
 
     // Mods (10 - 20)
     MOD: 1 << 10,
