@@ -10,40 +10,49 @@ const BitField = require("./BitField");
 class UserStatusUL extends BitField {
 
     /**
-     * @description Whether interactions should be accepted in general
+     * @description Whether the user is a trainee for helper
      * @type {boolean}
      * @param {boolean} bool
      */
 
-    get ACCEPTING() { return this.has(this.indicators.ACCEPTING); }
-    set ACCEPTING(bool) { return this.resolveBitBoolean(this.indicators.ACCEPTING, bool); }
+    get TRAINEE() { return this.has(this.indicators.TRAINEE); }
+    set TRAINEE(bool) { return this.resolveBitBoolean(this.indicators.TRAINEE, bool); }
 
     /**
-     * @description Whether the user should be able to do actions through chatting
+     * @description Whether the user is a helper
      * @type {boolean}
      * @param {boolean} bool
      */
 
-    get CHAT() { return this.has(this.indicators.CHAT); }
-    set CHAT(bool) { return this.resolveBitBoolean(this.indicators.CHAT, bool); }
+    get HELPER() { return this.has(this.indicators.HELPER); }
+    set HELPER(bool) { return this.resolveBitBoolean(this.indicators.HELPER, bool); }
 
     /**
-     * @description Whether the user should be able to do actions through reactions
+     * @description Whether the user is a officer-level helper
      * @type {boolean}
      * @param {boolean} bool
      */
 
-    get REACTIONS() { return this.has(this.indicators.REACTIONS); }
-    set REACTIONS(bool) { return this.resolveBitBoolean(this.indicators.REACTIONS, bool); }
+    get OFFICER() { return this.has(this.indicators.OFFICER); }
+    set OFFICER(bool) { return this.resolveBitBoolean(this.indicators.OFFICER, bool); }
 
     /**
-     * @description Whether the user should be able to do actions through buttons
+     * @description Whether the user is a developer-level helper
      * @type {boolean}
      * @param {boolean} bool
      */
 
-    get BUTTONS() { return this.has(this.indicators.BUTTONS); }
-    set BUTTONS(bool) { return this.resolveBitBoolean(this.indicators.BUTTONS, bool); }
+    get DEV() { return this.has(this.indicators.DEV); }
+    set DEV(bool) { return this.resolveBitBoolean(this.indicators.DEV, bool); }
+
+    /**
+     * @description Whether the user is a alpha-level helper
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get ALPHA() { return this.has(this.indicators.ALPHA); }
+    set ALPHA(bool) { return this.resolveBitBoolean(this.indicators.ALPHA, bool); }
 
 }
 
