@@ -72,6 +72,15 @@ class UserStatusUL extends BitField {
     get GDBROWSER_DEV() { return this.has(this.indicators.GDBROWSER_DEV); }
     set GDBROWSER_DEV(bool) { return this.resolveBitBoolean(this.indicators.GDBROWSER_DEV, bool); }
 
+    /**
+     * @description Whether the user is a member of the "Star Grinders" Discord server
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get SG() { return this.has(this.indicators.SG); }
+    set SG(bool) { return this.resolveBitBoolean(this.indicators.SG, bool); }
+
 }
 
 UserStatusUL.INDICATORS = {
@@ -85,7 +94,10 @@ UserStatusUL.INDICATORS = {
 
     // helper extensions (11 - 25)
     UGDB_ADMIN: 1 << 11,
-    GDBROWSER_DEV: 1 << 12
+    GDBROWSER_DEV: 1 << 12,
+
+    // Star Grinders (26-30)
+    SG: 1 << 26
 
 };
 
