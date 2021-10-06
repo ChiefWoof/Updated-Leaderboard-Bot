@@ -54,6 +54,24 @@ class UserStatusUL extends BitField {
     get ALPHA() { return this.has(this.indicators.ALPHA); }
     set ALPHA(bool) { return this.resolveBitBoolean(this.indicators.ALPHA, bool); }
 
+    /**
+     * @description Whether the user is a an admin for UltimateGDBot
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get UGDB_ADMIN() { return this.has(this.indicators.UGDB_ADMIN); }
+    set UGDB_ADMIN(bool) { return this.resolveBitBoolean(this.indicators.UGDB_ADMIN, bool); }
+
+    /**
+     * @description Whether the user helps to develop GDBrowser
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get GDBROWSER_DEV() { return this.has(this.indicators.GDBROWSER_DEV); }
+    set GDBROWSER_DEV(bool) { return this.resolveBitBoolean(this.indicators.GDBROWSER_DEV, bool); }
+
 }
 
 UserStatusUL.INDICATORS = {
@@ -63,7 +81,11 @@ UserStatusUL.INDICATORS = {
     HELPER: 1 << 1,
     OFFICER: 1 << 2,
     DEV: 1 << 3,
-    ALPHA: 1 << 4
+    ALPHA: 1 << 4,
+
+    // helper extensions (11 - 25)
+    UGDB_ADMIN: 1 << 11,
+    GDBROWSER_DEV: 1 << 12
 
 };
 
