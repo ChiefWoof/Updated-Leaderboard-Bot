@@ -1,18 +1,36 @@
 "use strict";
 
 const Client = require("../client/ClientDiscord");
+const Util = require("../util/Util");
 
 const ChatCommandMessage = require("./ChatCommandMessage");
 const ChatCommand = require("./ChatCommand");
 
-const { Message } = require("../lib/node_modules/discord.js");
+const {
+    GuildMember,
+    Message,
+    User
+} = require("../lib/node_modules/discord.js");
 
 class Command {
+
+    static ENABLED = false;
 
     /**
      * @constructor
      * @param {Client} client
-     * @param {*} data
+     * @param {ChatCommandMessage
+     * |GuildMember
+     * |Message
+     * |User
+     * |ChatCommand
+     * |({
+     * ChatCommandMessage: ChatCommandMessage,
+     * GuildMember: GuildMember,
+     * Message: Message,
+     * User: User,
+     * ChatCommand: ChatCommand
+     * })} data
      */
 
     constructor(client, data=null) {
@@ -33,6 +51,13 @@ class Command {
     build() { return this; }
 
     /**
+     * @description Whether the command can be used by a user
+     * @returns {boolean}
+     */
+
+    async hasPermissionUse() { return true; }
+
+    /**
      * @async
      * @param {ChatCommandMessage} data
      */
@@ -48,10 +73,24 @@ class Command {
 
     /**
      * @async
+     * @param {GuildMember} data
+     */
+
+    async handlerGuildMember(data) { return this; }
+
+    /**
+     * @async
      * @param {Message} data
      */
 
     async handlerMessage(data) { return this; }
+
+    /**
+     * @async
+     * @param {User} data
+     */
+
+    async handlerUser(data) { return this; }
 
     /**
      * @async
@@ -62,14 +101,34 @@ class Command {
 
     /**
      * @async
-     * @param {*} data 
+     * @param {ChatCommandMessage
+     * |GuildMember
+     * |Message
+     * |User
+     * |ChatCommand
+     * |({
+     * ChatCommandMessage: ChatCommandMessage,
+     * GuildMember: GuildMember,
+     * Message: Message,
+     * User: User,
+     * ChatCommand: ChatCommand
+     * })} data
      */
 
     async handler(data) {
         if (data instanceof ChatCommandMessage) await this.handlerChatCommandMessage(data);
-        if (data instanceof Message) await this.handlerMessage(data);
-        if (data instanceof ChatCommand) await this.handlerChatCommand(data);
-        return await this.handlerReady();
+        else if (data instanceof GuildMember) await this.handlerGuildMember(data);
+        else if (data instanceof Message) await this.handlerMessage(data);
+        else if (data instanceof User) await this.handlerUser(data);
+        else if (data instanceof ChatCommand) await this.handlerChatCommand(data);
+        else if (Util.isObjectNormal(data)) {
+            if ("ChatCommandMessage" in data) await this.handlerChatCommandMessage(data.ChatCommandMessage);
+            if ("GuildMember" in data) await this.handlerGuildMember(data.GuildMember);
+            if ("Message" in data) await this.handlerMessage(data.Message);
+            if ("User" in data) await this.handlerUser(data.User);
+            if ("ChatCommand" in data) await this.handlerChatCommand(data.ChatCommand);
+        }
+        return this;
     }
 
 }
