@@ -32,10 +32,22 @@ class BitField {
     get indicators() { return this.constructor.INDICATORS; }
 
     /**
+     * @returns {Object<string, number>} The bases bits
+     */
+
+    get bases() { return this.constructor.BASES; }
+
+    /**
+     * @returns {Object<string, number>} The flexable bits
+     */
+
+    get flexes() { return this.constructor.FLEXES; }
+
+    /**
      * @returns {string} The binary string of the bitfield value
      */
 
-    get binary() { return this.constructor.toBinary(this.value); }
+    get binary() { return this.value.toString(2); }
 
     /**
      * @returns {number[]} The binary bits of the bitfield value
@@ -109,14 +121,30 @@ class BitField {
 
     /**
      * @param {number} baseBit The values to look at for flexing
-     * @param {number} flexBit The values to flex
-     * @returns {boolean} Whether the baseBit(s) is/are flexing the flexBit(s)
+     * @param {...number} flexBit The values to flex
+     * @returns {boolean} Whether the baseBits are flexing the entered flexBits
      */
 
-    hasFlex(baseBit, flexBit) {
-        if (!((baseBit | flexBit) === baseBit))
-            throw new Error(`flexBit, ${flexBit} (${flexBit.toString(2)}), is out of range of the baseBit, ${baseBit} (${baseBit.toString(2)})`);
-        return (this.value & baseBit) === flexBit;
+    hasFlex(baseBit, ...flexBit) {
+        return flexBit.every((bit, i) => {
+            if (!((baseBit | bit) === baseBit))
+                throw new Error(`index ${i}'s flexBit, ${bit} (${bit.toString(2)}), is out of range of the baseBit, ${baseBit} (${baseBit.toString(2)})`);
+            return (this.value & baseBit) === bit;
+        });
+    }
+
+    /**
+     * @param {number} baseBit The values to look at for flexing
+     * @param {...number} flexBit The values to flex
+     * @returns {boolean} Whether the baseBits are flexing at least one of the entered flexBits
+     */
+
+    hasFlexOne(baseBit, ...flexBit) {
+        return flexBit.some((bit, i) => {
+            if (!((baseBit | bit) === baseBit))
+                throw new Error(`index ${i}'s flexBit, ${bit} (${bit.toString(2)}), is out of range of the baseBit, ${baseBit} (${baseBit.toString(2)})`);
+            return (this.value & baseBit) === bit;
+        });
     }
 
     /**
@@ -198,7 +226,7 @@ class BitField {
      * @returns {Object<string, boolean>}
      */
     
-    indications(obj=this.constructor.INDICATORS) {
+    indicatorsObj(obj=this.constructor.INDICATORS) {
         return Object.entries(obj).reduce((v, [indicator, bit]) => {
             v[indicator] = this.has(bit);
             return v;
@@ -211,7 +239,7 @@ class BitField {
      * @returns {Object<string, number>}
      */
     
-    bases(obj=this.constructor.BASES) {
+    basesObj(obj=this.constructor.BASES) {
         return Object.entries(obj).reduce((v, [base, bit]) => {
             v[base] = this.value & bit;
             return v;
@@ -234,7 +262,7 @@ class BitField {
     }
 
     /**
-     * @description Disables everything, setting the bitfield value to 0
+     * @description Disables everything, setting the bitfield value to the defaultValue
      */
 
     disable() { return this.resolve(0); }
@@ -269,13 +297,10 @@ BitField.INDICATORS = {};
 BitField.BASES = {};
 
 /**
- * @description The value to be converted to a binary string
- * @param {number} value The value
- * @returns {string}
+ * @description The (flex, bit) pair object
+ * @type {Object<string, number>}
  */
 
-BitField.toBinary = function(value) {
-    return (value << 0).toString(2);
-};
+BitField.FLEXES = {};
 
 module.exports = BitField;
