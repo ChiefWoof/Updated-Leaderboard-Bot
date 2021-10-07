@@ -14,7 +14,33 @@ const {
 
 class Command {
 
+    /**
+     * @description Whether the command labeled as useable by users
+     * @type {boolean}
+     */
+
     static ENABLED = false;
+
+    /**
+     * @description The user's bot status requirements in order to use the command
+     * @type {boolean}
+     */
+
+    static STATUS_BOT = 0;
+
+    /**
+     * @description The user's UL status requirements in order to use the command
+     * @type {boolean}
+     */
+
+    static STATUS_UL = 0;
+
+    /**
+     * @description The user's GD status requirements in order to use the command
+     * @type {boolean}
+     */
+
+    static STATUS_GD = 0;
 
     /**
      * @constructor
@@ -24,13 +50,13 @@ class Command {
      * |Message
      * |User
      * |ChatCommand
-     * |({
+     * |{
      * ChatCommandMessage: ChatCommandMessage,
      * GuildMember: GuildMember,
      * Message: Message,
      * User: User,
      * ChatCommand: ChatCommand
-     * })} data
+     * }} data
      */
 
     constructor(client, data=null) {
@@ -106,13 +132,13 @@ class Command {
      * |Message
      * |User
      * |ChatCommand
-     * |({
+     * |{
      * ChatCommandMessage: ChatCommandMessage,
      * GuildMember: GuildMember,
      * Message: Message,
      * User: User,
      * ChatCommand: ChatCommand
-     * })} data
+     * }} data
      */
 
     async handler(data) {
