@@ -1,11 +1,12 @@
 "use strict";
 
 const CacheManager = require("./CacheManager");
+const Util = require("../util/Util");
 
 /**
  * @description A collection of stored Discord text command callers
  * in the format (caller, commandID)
- * @extends {Map<string, string>}
+ * @extends {Map<string|RegExp, string>}
  */
 
 class CommandCallersManager extends CacheManager {
@@ -24,7 +25,7 @@ class CommandCallersManager extends CacheManager {
 
     /**
      * @param {number} id The CommandID to look for
-     * @returns {number} -1 or the accountID found
+     * @returns {number} -1 or the index found
      */
 
     findIndexByCommandID(id) { return [...this.keys()].find(k => `${this.get(k)}` === `${id}`); }
@@ -38,10 +39,23 @@ class CommandCallersManager extends CacheManager {
 
     /**
      * @param {string} caller The caller to look for
-     * @returns {boolean} Whether an accountID exists in the cache
+     * @returns {?number} The command ID
      */
 
-    hasCaller(caller) { return this.has(`${caller}`); }
+    findCommandIDByIndex(caller) {
+        return [...this.entries()].reduce((v, [k, cmdID]) => {
+            if (!v && (k instanceof RegExp ? k.test(caller) : k === caller))
+                v = cmdID;
+            return v;
+        }, null);
+    }
+
+    /**
+     * @param {string} caller The caller to look for
+     * @returns {boolean} Whether the caller exists in the cache
+     */
+
+    hasCaller(caller) { return this.findCommandIDByIndex(caller) !== null; }
     
     /**
      * @description Attempts to register an entry into the cache
@@ -53,7 +67,7 @@ class CommandCallersManager extends CacheManager {
     add(caller, commandID) {
         if (!["string", "number", "bigint"].includes(typeof commandID) || !/^[0-9]$/.test(commandID))
             throw new Error("commandID is not a proper positive integer");
-        if (typeof caller !== "string" || !caller)
+        if (caller instanceof RegExp ? false : typeof caller !== "string" || !caller)
             throw new Error("caller must contain characters");
         if (!this.hasCaller(caller)) {
             this.set(caller, `${commandID}`);
@@ -64,13 +78,16 @@ class CommandCallersManager extends CacheManager {
     
     /**
      * @description Attempts to register entries in an object into the cache
-     * @param {Object<string, number|string|BigInt>>} obj
+     * @param {Object<string, number|string|BigInt|{caller: string|RegExp, cmdID: number|string|BigInt}>} obj
      * @returns {Object<string, boolean>} Which entries were addd
      */
 
     addObject(obj) {
         Object.entries(obj).reduce((v, [aK, aV]) => {
-            v[aK] = this.add(aK, aV);
+            if (Util.isObjectNormal(aV))
+                v[aK] = this.add(aV.caller, aV.cmdID);
+            else
+                v[aK] = this.add(aK, aV);
             return v;
         }, {});
     }
