@@ -15,8 +15,8 @@ class UserStatusUL extends BitField {
      * @param {boolean} bool
      */
 
-    get TRAINEE() { return this.has(this.indicators.TRAINEE); }
-    set TRAINEE(bool) { return this.resolveBitBoolean(this.indicators.TRAINEE, bool); }
+    get TRAINEE() { return this.hasFlex(this.bases.HELPER_LEVEL, this.flexes.TRAINEE); }
+    set TRAINEE(bool) { return this.flex(this.bases.HELPER_LEVEL, bool ? this.flexes.TRAINEE : 0); }
 
     /**
      * @description Whether the user is a helper
@@ -24,8 +24,8 @@ class UserStatusUL extends BitField {
      * @param {boolean} bool
      */
 
-    get HELPER() { return this.has(this.indicators.HELPER); }
-    set HELPER(bool) { return this.resolveBitBoolean(this.indicators.HELPER, bool); }
+    get HELPER() { return this.hasFlexOne(this.bases.HELPER_LEVEL, this.flexes.HELPER, this.flexes.OFFICER, this.flexes.DEV, this.flexes.ALPHA); }
+    set HELPER(bool) { return this.flex(this.bases.HELPER_LEVEL, bool ? this.flexes.HELPER : 0); }
 
     /**
      * @description Whether the user is a officer-level helper
@@ -33,8 +33,8 @@ class UserStatusUL extends BitField {
      * @param {boolean} bool
      */
 
-    get OFFICER() { return this.has(this.indicators.OFFICER); }
-    set OFFICER(bool) { return this.resolveBitBoolean(this.indicators.OFFICER, bool); }
+    get OFFICER() { return this.hasFlexOne(this.bases.HELPER_LEVEL, this.flexes.OFFICER, this.flexes.DEV, this.flexes.ALPHA); }
+    set OFFICER(bool) { return this.flex(this.bases.HELPER_LEVEL, bool ? this.flexes.OFFICER : 0); }
 
     /**
      * @description Whether the user is a developer-level helper
@@ -42,8 +42,8 @@ class UserStatusUL extends BitField {
      * @param {boolean} bool
      */
 
-    get DEV() { return this.has(this.indicators.DEV); }
-    set DEV(bool) { return this.resolveBitBoolean(this.indicators.DEV, bool); }
+    get DEV() { return this.hasFlexOne(this.bases.HELPER_LEVEL, this.flexes.DEV, this.flexes.ALPHA); }
+    set DEV(bool) { return this.flex(this.bases.HELPER_LEVEL, bool ? this.flexes.DEV : 0); }
 
     /**
      * @description Whether the user is a alpha-level helper
@@ -51,8 +51,8 @@ class UserStatusUL extends BitField {
      * @param {boolean} bool
      */
 
-    get ALPHA() { return this.has(this.indicators.ALPHA); }
-    set ALPHA(bool) { return this.resolveBitBoolean(this.indicators.ALPHA, bool); }
+    get ALPHA() { return this.hasFlex(this.bases.HELPER_LEVEL, this.flexes.ALPHA); }
+    set ALPHA(bool) { return this.flex(this.bases.HELPER_LEVEL, bool ? this.flexes.ALPHA : 0); }
 
     /**
      * @description Whether the user is a an admin for UltimateGDBot
@@ -85,19 +85,33 @@ class UserStatusUL extends BitField {
 
 UserStatusUL.INDICATORS = {
 
-    // helpers (0 - 10)
-    TRAINEE: 1 << 0,
-    HELPER: 1 << 1,
-    OFFICER: 1 << 2,
-    DEV: 1 << 3,
-    ALPHA: 1 << 4,
+    /// helper level (0-3)
+    HELPER_LEVEL_BIT_0: 1 << 0,
+    HELPER_LEVEL_BIT_1: 1 << 1,
+    HELPER_LEVEL_BIT_2: 1 << 2,
 
-    // helper extensions (11 - 25)
-    UGDB_ADMIN: 1 << 11,
-    GDBROWSER_DEV: 1 << 12,
+    // helper extensions (4 - 15)
+    UGDB_ADMIN: 1 << 4,
+    GDBROWSER_DEV: 1 << 5,
 
-    // Star Grinders (26-30)
-    SG: 1 << 26
+    // Star Grinders (16-20)
+    SG: 1 << 16
+
+};
+
+UserStatusUL.BASES = {
+
+    HELPER_LEVEL: 7
+
+};
+
+UserStatusUL.FLEXES = {
+
+    TRAINEE: 1,
+    HELPER: 2,
+    OFFICER: 3,
+    DEV: 4,
+    ALPHA: 5,
 
 };
 
