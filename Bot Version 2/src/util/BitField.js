@@ -56,7 +56,7 @@ class BitField {
     }
 
     /**
-     * @description Adds bits to the current bitfield value
+     * @description Adds bits to the current bitfield
      * @param {...number} bits The bits
      */
 
@@ -68,7 +68,21 @@ class BitField {
     }
 
     /**
-     * @description Removes bits from the current bitfield value
+     * @description Removes a set a bits from the bitfield then adds certain ones in its place
+     * @param {number} baseBit The values to look at for flexing
+     * @param {number} flexBit The values to flex
+     */
+
+    flex(baseBit, flexBit) {
+        if (!((baseBit | flexBit) === baseBit))
+            throw new Error(`flexBit, ${flexBit} (${flexBit.toString(2)}), is out of range of the baseBit, ${baseBit} (${baseBit.toString(2)})`);
+        this.remove(baseBit);
+        this.add(flexBit);
+        return this;
+    }
+
+    /**
+     * @description Removes bits from the current bitfield
      * @param {...number} bits The bits
      */
 
@@ -81,10 +95,29 @@ class BitField {
     
     /**
      * @param {...number} bits The bits
-     * @returns {boolean} Whether the entered value can be found within the instance's value
+     * @returns {boolean} Whether the entered bits can be found within the instance's value
      */
 
     has(...bits) { return bits.every(bit => (this.value & bit) === bit); }
+    
+    /**
+     * @param {...number} bits The bits
+     * @returns {boolean} Whether at least one of the entered bits can be found within the instance's value
+     */
+
+    hasOne(...bits) { return bits.some(bit => (this.value & bit) === bit); }
+
+    /**
+     * @param {number} baseBit The values to look at for flexing
+     * @param {number} flexBit The values to flex
+     * @returns {boolean} Whether the baseBit(s) is/are flexing the flexBit(s)
+     */
+
+    hasFlex(baseBit, flexBit) {
+        if (!((baseBit | flexBit) === baseBit))
+            throw new Error(`flexBit, ${flexBit} (${flexBit.toString(2)}), is out of range of the baseBit, ${baseBit} (${baseBit.toString(2)})`);
+        return (this.value & baseBit) === flexBit;
+    }
 
     /**
      * @description Sets the bitfield value to its default value
@@ -173,6 +206,19 @@ class BitField {
     }
 
     /**
+     * @description Creates and returns an object of (base, bit) pairs where bit is the flexed bit
+     * @param {Object<string, number>} [obj] The base, bit pair object
+     * @returns {Object<string, number>}
+     */
+    
+    bases(obj=this.constructor.BASES) {
+        return Object.entries(obj).reduce((v, [base, bit]) => {
+            v[base] = this.value & bit;
+            return v;
+        }, {});
+    }
+
+    /**
      * @description Performs adjustments based on an indicator (indicator, boolean) object
      * @param {Object<string, boolean>} objBools The indicator, boolean pair object
      * @param {Object<string, number>} [objBits] The indicator, bit pair object
@@ -214,6 +260,13 @@ BitField.DEFAULT_VALUE = 0;
  */
 
 BitField.INDICATORS = {};
+
+/**
+ * @description The (base, bit) pair object
+ * @type {Object<string, number>}
+ */
+
+BitField.BASES = {};
 
 /**
  * @description The value to be converted to a binary string
