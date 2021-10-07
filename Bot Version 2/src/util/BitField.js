@@ -254,7 +254,7 @@ class BitField {
      */
     
     resolveIndications(objBools, objBits=this.constructor.INDICATORS) {
-        for (const [indicator, bitValue] of Object.entries(obj)) {
+        for (const [indicator, bitValue] of Object.entries(objBools)) {
             if (indicator in objBits)
                 this.resolveBitBoolean(objBits[indicator], bitValue);
         }
