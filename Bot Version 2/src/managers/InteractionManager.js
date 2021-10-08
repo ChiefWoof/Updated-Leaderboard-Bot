@@ -63,9 +63,9 @@ class InteractionManager extends EventEmitter {
 
         this.sentButtonCondition = sentButtonCondition;
 
-        this.on(InteractionManager.SENT_MESSAGE, this.sentMessageHandler);
-        this.on(InteractionManager.SENT_REACTION, this.sentReactionHandler);
-        this.on(InteractionManager.SENT_BUTTON, this.sentButtonHandler);
+        this.on(this.events.SENT_MESSAGE, this.sentMessageHandler);
+        this.on(this.events.SENT_REACTION, this.sentReactionHandler);
+        this.on(this.events.SENT_BUTTON, this.sentButtonHandler);
 
     }
 
@@ -93,7 +93,7 @@ class InteractionManager extends EventEmitter {
             this.reject(eventRejected, InteractionManager.REJECTION_REASONS.NOT_ACCEPTING);
         else if (!toggle)
             this.reject(eventRejected, InteractionManager.REJECTION_REASONS.DISABLED);
-        else if (typeof conditoin === "function" && !condition(...args))
+        else if (typeof condition === "function" && !condition(...args))
             this.reject(eventRejected, InteractionManager.REJECTION_REASONS.FAILED_CONDITION);
         else {
             if (eventAccepted) this.emit(eventAccepted, ...args);
@@ -113,8 +113,8 @@ class InteractionManager extends EventEmitter {
         return this.sentHandler({
             toggle: this.settings.CHAT,
             condition: this.sentMessageCondition,
-            eventRejected: InteractionManager.REJECTED_MESSAGE,
-            eventAccepted: InteractionManager.ACCEPTED_MESSAGE
+            eventRejected: this.events.REJECTED_MESSAGE,
+            eventAccepted: this.events.ACCEPTED_MESSAGE
         }, ...args);
     }
 
@@ -122,8 +122,8 @@ class InteractionManager extends EventEmitter {
         return this.sentHandler({
             toggle: this.settings.REACTIONS,
             condition: this.sentReactionCondition,
-            eventRejected: InteractionManager.REJECTED_REACTION,
-            eventAccepted: InteractionManager.ACCEPTED_REACTION
+            eventRejected: this.events.REJECTED_REACTION,
+            eventAccepted: this.events.ACCEPTED_REACTION
         }, ...args);
     }
 
@@ -131,8 +131,8 @@ class InteractionManager extends EventEmitter {
         return this.sentHandler({
             toggle: this.settings.BUTTONS,
             condition: this.sentButtonCondition,
-            eventRejected: InteractionManager.REJECTED_BUTTON,
-            eventAccepted: InteractionManager.ACCEPTED_BUTTON
+            eventRejected: this.events.REJECTED_BUTTON,
+            eventAccepted: this.events.ACCEPTED_BUTTON
         }, ...args);
     }
 
