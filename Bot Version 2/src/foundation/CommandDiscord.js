@@ -200,6 +200,11 @@ class CommandDiscord {
 
     async setupCommands() {
         this.commands.clear();
+
+        this.commands.add("END", () => {
+            this.userInteractions.settings.ACCEPTING = false;
+        });
+
         return this;
     }
 
@@ -210,6 +215,9 @@ class CommandDiscord {
 
     async setupCallers() {
         this.callers.clear();
+
+        this.callers.add(/^end|stop/i, "END");
+
         return this;
     }
 
@@ -357,14 +365,15 @@ class CommandDiscord {
     handlerSentButton(data) { return this; }
 
     /**
+     * @async
      * @description Starts running client-user interactions
      */
 
-    runInteractions() {
+    async runInteractions() {
         if (!this.client.loggedIn)
             throw new Error("Client must be logged into its Discord account to perform this action.");
-        this.setupCommands();
-        this.setupCallers();
+        await this.setupCommands();
+        await this.setupCallers();
         this.userInteractions.on(this.userInteractions.events.ACCEPTED_MESSAGE, (...args) => this.handlerSentMessage(...args));
         this.userInteractions.on(this.userInteractions.events.ACCEPTED_REACTION, (...args) => this.handlerSentReaction(...args));
         this.userInteractions.on(this.userInteractions.events.ACCEPTED_BUTTON, (...args) => this.handlerSentButton(...args));
