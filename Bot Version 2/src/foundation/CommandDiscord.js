@@ -329,7 +329,7 @@ class CommandDiscord {
         msgCmd.handler({ callers: this.callers.callersRegexDiscord });
         
         if (msgCmd.command.hasCaller) {
-            let cmdID = this.callers.findCommandIDByIndex(msgCmd.command.caller);
+            let cmdID = this.callers.findCommandIDByIndex(msgCmd.command.caller.toLowerCase());
             if (this.commands.has(`${cmdID}`)) this.commands.get(`${cmdID}`).callback();
         }
 
