@@ -24,21 +24,21 @@ class CommandCallersManager extends CacheManager {
     get callersRegexDiscord() { return [...this.keys()].map(a => a instanceof RegExp ? a : new RegExp(`^(${a})`, "i")); }
 
     /**
-     * @param {number} id The CommandID to look for
-     * @returns {number} -1 or the index found
+     * @param {string|number|bigint} id The CommandID to look for
+     * @returns {string|RegExp|number} -1 or the index found
      */
 
     findIndexByCommandID(id) { return [...this.keys()].find(k => `${this.get(k)}` === `${id}`); }
 
     /**
-     * @param {number} id The CommandID to look for
+     * @param {string|number|bigint} id The CommandID to look for
      * @returns {boolean} Whether a commandID exists in the cache
      */
 
     hasCommandID(id) { return this.findIndexByCommandID(id) !== undefined; }
 
     /**
-     * @param {string} caller The caller to look for
+     * @param {string|RegExp} caller The caller to look for
      * @returns {?number} The command ID
      */
 
@@ -51,7 +51,7 @@ class CommandCallersManager extends CacheManager {
     }
 
     /**
-     * @param {string} caller The caller to look for
+     * @param {string|RegExp} caller The caller to look for
      * @returns {boolean} Whether the caller exists in the cache
      */
 
@@ -60,13 +60,11 @@ class CommandCallersManager extends CacheManager {
     /**
      * @description Attempts to register an entry into the cache
      * @param {string} id 
-     * @param {string} caller 
+     * @param {string|RegExp} caller 
      * @returns {boolean} Whether the entry was added
      */
 
     add(caller, commandID) {
-        if (!["string", "number", "bigint"].includes(typeof commandID) || !/^[0-9]$/.test(commandID))
-            throw new Error("commandID is not a proper positive integer");
         if (caller instanceof RegExp ? false : typeof caller !== "string" || !caller)
             throw new Error("caller must contain characters");
         if (!this.hasCaller(caller)) {
@@ -100,8 +98,6 @@ class CommandCallersManager extends CacheManager {
      */
 
     update(caller, commandID) {
-        if (!["string", "number", "bigint"].includes(typeof commandID) || !/^[0-9]$/.test(commandID))
-            throw new Error("commandID is not a proper positive integer");
         if (typeof caller !== "string" || !caller)
             throw new Error("caller must contain characters");
         if (this.hasCaller(caller)) {
