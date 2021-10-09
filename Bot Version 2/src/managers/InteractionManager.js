@@ -93,7 +93,7 @@ class InteractionManager extends EventEmitter {
             this.reject(eventRejected, InteractionManager.REJECTION_REASONS.NOT_ACCEPTING);
         else if (!toggle)
             this.reject(eventRejected, InteractionManager.REJECTION_REASONS.DISABLED);
-        else if (typeof condition === "function" && !condition(...args))
+        else if (typeof condition === "function" && condition(...args) !== true)
             this.reject(eventRejected, InteractionManager.REJECTION_REASONS.FAILED_CONDITION);
         else {
             if (eventAccepted) this.emit(eventAccepted, ...args);
