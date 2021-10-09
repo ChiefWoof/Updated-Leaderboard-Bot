@@ -3,15 +3,10 @@
 const Client = require("../client/ClientDiscord");
 const Util = require("../util/Util");
 
-const UserStatusBot = require("../util/UserStatusBot");
-const UserStatusUL = require("../util/UserStatusUL");
-const UserStatusGD = require("../util/UserStatusGD");
-
 const ChatCommandMessage = require("./ChatCommandMessage");
 const ChatCommand = require("./ChatCommand");
 
 const InteractionManager = require("../managers/InteractionManager");
-const UserInteractionOptions = require("../util/UserInteractions");
 
 const CallbackManager = require("../managers/CallbackManager");
 const CommandCallersManager = require("../managers/CommandCallersManager");
@@ -24,6 +19,10 @@ const {
     ButtonInteraction
 } = require("../lib/node_modules/discord.js/");
 
+/**
+ * @description A base format for Discord-related commands
+ */
+
 class CommandDiscord {
 
     /**
@@ -32,27 +31,6 @@ class CommandDiscord {
      */
 
     static ENABLED = false;
-
-    /**
-     * @description The user's bot status requirements in order to use the command
-     * @type {boolean}
-     */
-
-    static STATUS_BOT = 0;
-
-    /**
-     * @description The user's UL status requirements in order to use the command
-     * @type {boolean}
-     */
-
-    static STATUS_UL = 0;
-
-    /**
-     * @description The user's GD status requirements in order to use the command
-     * @type {boolean}
-     */
-
-    static STATUS_GD = 0;
 
     /**
      * @constructor
@@ -88,9 +66,9 @@ class CommandDiscord {
          */
 
         this.userInteractions = new InteractionManager(undefined, {
-            sentMessageCondition: (...args) => this.handlerSentMessageCondition.call(this, ...args),
-            sentReactionCondition: (...args) => this.handlerSentReactionCondition.call(this, ...args),
-            sentButtonCondition: (...args) => this.handlerSentButtonCondition.call(this, ...args),
+            sentMessageCondition: async (...args) => await this.handlerSentMessageCondition.call(this, ...args),
+            sentReactionCondition: async (...args) => await this.handlerSentReactionCondition.call(this, ...args),
+            sentButtonCondition: async (...args) => await this.handlerSentButtonCondition.call(this, ...args),
         });
 
         /**
@@ -169,15 +147,7 @@ class CommandDiscord {
      * @returns {Promise<boolean>}
      */
 
-    async hasPermissionUse({
-        statusBot = new UserStatusBot(),
-        statusUL = new UserStatusUL(),
-        statusGD = new UserStatusGD(),
-    }={}) {
-        return statusBot.has(this.constructor.STATUS_BOT)
-        && statusUL.has(this.constructor.STATUS_UL)
-        && statusGD.has(this.constructor.STATUS_GD);
-    }
+    async hasPermissionUse() { return true; }
 
     /**
      * @async
@@ -296,11 +266,12 @@ class CommandDiscord {
     }
 
     /**
+     * @async
      * @param {Message} data 
-     * @returns {boolean}
+     * @returns {Promise<boolean>}
      */
 
-    handlerSentMessageCondition(data) {
+    async handlerSentMessageCondition(data) {
         if (!data.author) return false;
         if (!this.hasCaller) return false;
         if (!this.hasDisChannelID) return false;
@@ -321,48 +292,82 @@ class CommandDiscord {
     }
 
     /**
+     * @async
      * @param {Message} data
      */
 
-    handlerSentMessage(data) {
+    async handlerSentMessage(data) {
         let msgCmd = new ChatCommandMessage(data);
         msgCmd.handler({ callers: this.callers.callersRegexDiscord });
         
         if (msgCmd.command.hasCaller) {
             let cmdID = this.callers.findCommandIDByIndex(msgCmd.command.caller.toLowerCase());
-            if (this.commands.has(`${cmdID}`)) this.commands.get(`${cmdID}`).callback();
+            if (this.commands.has(`${cmdID}`)) this.commands.get(`${cmdID}`).callback(msgCmd);
+            await data.delete().catch(() => {});
         }
 
         return this;
     }
 
     /**
+     * @async
      * @param {MessageReaction} reaction 
      * @param {User} user 
-     * @returns {boolean}
+     * @returns {Promise<boolean>}
      */
 
-    handlerSentReactionCondition(reaction, user) { return false; }
+    async handlerSentReactionCondition(reaction, user) {
+        if (!user) return false;
+        if (!this.hasDisChannelID) return false;
+        if (!this.hasMessage) return false;
+        if (`${reaction.message.channelId}` !== `${this.disChannelID}`) return false;
+        if (`${reaction.message.id}` !== `${this.msg.id}`) return false;
+        if (!this.hasCaller) return false;
+        if (`${user.id}` !== `${this.callerDisID}`) {
+            return false;
+        };
+        return true;
+    }
 
     /**
+     * @async
      * @param {MessageReaction} reaction 
      * @param {User} user 
      */
 
-    handlerSentReaction(reaction, user) { return this; }
+    async handlerSentReaction(reaction, user) {
+        if (this.commands.has(`REACTION_${reaction.emoji.id ? reaction.emoji.id : reaction.emoji.name}`))
+            this.commands.get(`REACTION_${reaction.emoji.id ? reaction.emoji.id : reaction.emoji.name}`).callback(reaction, user);
+        return this;
+    }
 
     /**
+     * @async
      * @param {ButtonInteraction} data 
-     * @returns {boolean}
+     * @returns {Promise<boolean>}
      */
 
-    handlerSentButtonCondition(data) { return false; }
+    async handlerSentButtonCondition(data) {
+        if (!this.hasDisChannelID) return false;
+        if (!this.hasMessage) return false;
+        if (`${data.channelId}` !== `${this.disChannelID}`) return false;
+        if (`${data.message.id}` !== `${this.msg.id}`) return false;
+        if (!this.hasCaller) return false;
+        if (`${data.user.id}` !== `${this.callerDisID}`) {
+            return false;
+        };
+        return true;
+    }
 
     /**
+     * @async
      * @param {ButtonInteraction} data
      */
 
-    handlerSentButton(data) { return this; }
+    async handlerSentButton(data) {
+        console.log(data);
+        return this;
+    }
 
     /**
      * @async
@@ -379,6 +384,12 @@ class CommandDiscord {
         this.userInteractions.on(this.userInteractions.events.ACCEPTED_BUTTON, (...args) => this.handlerSentButton(...args));
         this.client.clientDiscord.on("messageCreate", msg => this.userInteractions.emit(this.userInteractions.events.SENT_MESSAGE, msg));
         this.client.clientDiscord.on("messageReactionAdd", (reaction, user) => this.userInteractions.emit(this.userInteractions.events.SENT_REACTION, reaction, user));
+        this.client.clientDiscord.on("interactionCreate", (data) => {
+            if (data.isButton()) this.userInteractions.emit(this.userInteractions.events.SENT_BUTTON, data);
+        });
+
+        this.userInteractions.on(this.userInteractions.events.REJECTED_BUTTON, console.log);
+
         return this;
     }
 
