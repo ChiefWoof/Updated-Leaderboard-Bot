@@ -21,7 +21,7 @@ class CommandCallersManager extends CacheManager {
      * @returns {RegExp[]} An array of callers as RegExp for ChatCommands
      */
 
-    get callersRegexDiscord() { return [...this.keys()].map(a => a instanceof RegExp ? a : new RegExp(`^(${a})`, "i")); }
+    get callersRegexDiscord() { return [...this.keys()].map(a => a instanceof RegExp ? a : new RegExp(`^${a}`, "i")); }
 
     /**
      * @param {string|number|bigint} id The CommandID to look for
