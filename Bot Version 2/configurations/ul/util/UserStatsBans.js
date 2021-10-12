@@ -121,6 +121,31 @@ class UserStatsBans extends BitField {
 
     get NET() { return Object.values(this.indicatorsObj()).includes(true); }
 
+    /**
+     * @description Performs adjustments based on an entered bit representation
+     * * `NUMBER` - bit value
+     * * `STRING` - hex
+     * * `OBJECT` - stat, boolean paired bit object representation
+     * @param {number|string|(Object<string, number>)|STAT_INDICATIONS} bit
+     */
+
+    resolve(bit) {
+        if (typeof bit === "string")
+            this.resolve(UserStatsBans.toBansObject(bit));
+        else if (Object.prototype.toString.call(bit) === "[object Object]" && !Object.keys(bit).every(k => /^[0-9]$/.test(k)))
+            this.resolve(Object.entries(bit).reduce((v, [stat, bool]) => {
+                if (/^(stars?)$/i.test(stat)) v[this.indicators.STARS] = bool;
+                if (/^(diamonds?)$/i.test(stat)) v[this.indicators.DIAMONDS] = bool;
+                if (/^(scoins?|secretcoins?|secret coins?|coins?)$/i.test(stat)) v[this.indicators.SCOINS] = bool;
+                if (/^(ucoins?|usercoins?|user coins?)$/i.test(stat)) v[this.indicators.UCOINS] = bool;
+                if (/^(demons?)$/i.test(stat)) v[this.indicators.DEMONS] = bool;
+                if (/^(cp|creatorpoints?|creator points?)$/i.test(stat)) v[this.indicators.CP] = bool;
+                return v;
+            }, {}));
+        else
+            super.resolve(bit);
+    }
+
 }
 
 UserStatsBans.INDICATORS = {
