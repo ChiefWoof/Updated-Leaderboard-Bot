@@ -130,7 +130,6 @@ class UserStatsBans extends BitField {
      */
 
     resolve(bit) {
-        console.log(bit);
         if (typeof bit === "string")
             this.resolve(UserStatsBans.toBansObject(bit));
         else if (Object.prototype.toString.call(bit) === "[object Object]" && !Object.keys(bit).every(k => /^[0-9]{1,}$/.test(k)))
