@@ -170,7 +170,7 @@ class BitField {
             this.value = bit;
         else if (typeof bit === "string")
             this.resolveBytes(...bit);
-        else if (Object.prototype.toString.call(bit) === "[object Object]")
+        else if (Object.prototype.toString.call(bit) === "[object Object]" && Object.keys(bit).every(k => /^[0-9]{1,}$/.test(k)))
             this.resolveBitObject(bit);
         else if (Array.isArray(bit))
             this.resolveBytes(...bit);
