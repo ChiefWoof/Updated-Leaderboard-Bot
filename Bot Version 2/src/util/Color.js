@@ -46,9 +46,9 @@ class Color extends BitField {
     set hex(value) {
         if (typeof value === "string") {
             if (value.length === 3) {
-                this.R = parseInt(value[0].repeat(1), 16);
-                this.G = parseInt(value[1].repeat(1), 16);
-                this.B = parseInt(value[2].repeat(1), 16);
+                this.R = parseInt(value[0].repeat(2), 16);
+                this.G = parseInt(value[1].repeat(2), 16);
+                this.B = parseInt(value[2].repeat(2), 16);
             } else if (value.length === 6) {
                 this.R = parseInt(value.substr(0, 2), 16);
                 this.G = parseInt(value.substr(2, 2), 16);
