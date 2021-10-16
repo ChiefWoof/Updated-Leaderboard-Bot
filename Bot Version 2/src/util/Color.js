@@ -44,7 +44,8 @@ class Color extends BitField {
 
     get hex() { return `00000${this.value.toString(16)}`.substr(-6); }
     set hex(value) {
-        if (typeof value === "string") {
+        if (typeof value === "string" && /^#?([a-f0-9]{3}|[a-f0-9]{6})$/i) {
+            value = value.replace(/^#/, "");
             if (value.length === 3) {
                 this.R = parseInt(value[0].repeat(2), 16);
                 this.G = parseInt(value[1].repeat(2), 16);
@@ -83,7 +84,7 @@ class Color extends BitField {
      */
 
     resolve(bit) {
-        if (typeof bit === "string")
+        if (typeof bit === "string" && /^#?([a-f0-9]{3}|[a-f0-9]{6})$/i)
             this.hex = bit;
         else if (Array.isArray(bit))
             this.rgb = bit;
