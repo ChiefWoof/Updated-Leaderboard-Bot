@@ -45,16 +45,7 @@ class Color extends BitField {
     get hex() { return `00000${this.value.toString(16)}`.substr(-6); }
     set hex(value) {
         if (typeof value === "string" && Color.REGEX.hex.test(value)) {
-            value = value.replace(/^#/, "");
-            if (value.length === 3) {
-                this.R = parseInt(value[0].repeat(2), 16);
-                this.G = parseInt(value[1].repeat(2), 16);
-                this.B = parseInt(value[2].repeat(2), 16);
-            } else if (value.length === 6) {
-                this.R = parseInt(value.substr(0, 2), 16);
-                this.G = parseInt(value.substr(2, 2), 16);
-                this.B = parseInt(value.substr(4, 2), 16);
-            }
+            this.rgb = Color.hexToRGB(value);
         }
     }
 
@@ -150,6 +141,49 @@ Color.BASES = {
 Color.REGEX = {
     hex: /^#?([a-f0-9]{3}|[a-f0-9]{6})$/i
 };
+
+/**
+ * @description Converts a hex string to an RGB array
+ * @param {?string} str
+ * @returns {[R: number, G: number, B: number]}
+ */
+
+Color.hexToRGB = function(str) {
+    let rgb = [ 0, 0, 0 ];
+    if (typeof str === "string" && Color.REGEX.hex.test(str)) {
+        str = str.replace(/^#/, "");
+        if (str.length === 3) {
+            rgb[0] = parseInt(str[0].repeat(2), 16);
+            rgb[1] = parseInt(str[1].repeat(2), 16);
+            rgb[2] = parseInt(str[2].repeat(2), 16);
+        } else if (str.length === 6) {
+            rgb[0] = parseInt(str.substr(0, 2), 16);
+            rgb[1] = parseInt(str.substr(2, 2), 16);
+            rgb[2] = parseInt(str.substr(4, 2), 16);
+        }
+    }
+    return rgb;
+}
+
+/**
+ * @description Converts an RGB array to a hex code string
+ * @param {number} [r=0] Red
+ * @param {number} [g=0] Green
+ * @param {number} [b=0] Blue
+ * @returns {string}
+ */
+
+Color.RGBToHex = function(r, g, b) {
+    if (Array.isArray(r))
+        return Color.RGBToHex(...r);
+    let hex = ["00", "00", "00"];
+    if ([r, g, b].every(a => typeof a === "number" && a >= 0 && a <= 255)) {
+        hex[0] = `${hex[0]}${r.toString(16)}`.substr(-2);
+        hex[1] = `${hex[1]}${g.toString(16)}`.substr(-2);
+        hex[2] = `${hex[2]}${b.toString(16)}`.substr(-2);
+    }
+    return hex.join("");
+}
 
 /**
  * @description Preset colors
