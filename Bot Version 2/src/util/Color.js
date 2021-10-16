@@ -124,9 +124,7 @@ class Color extends BitField {
      */
 
     inverse() {
-        this.R = 255 - this.R;
-        this.G = 255 - this.G;
-        this.B = 255 - this.B;
+        this.value = 16777215 - this.value;
         return this;
     }
 
