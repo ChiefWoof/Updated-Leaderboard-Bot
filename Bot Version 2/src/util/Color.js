@@ -97,6 +97,11 @@ class Color extends BitField {
             super.resolve(bit);
     }
 
+    /**
+     * @description Adjusts the tint of the color
+     * @param {number|string|bigint} percentage the percentage of 255 to adjust by
+     */
+
     brighten(percentage=0) {
         if (["string", "number", "bigint"].includes(typeof percentage) && /^\d{1,}$/.test(`${percentage}`.replace(".", ""))) {
             percentage = Number(percentage) / 100;
@@ -107,6 +112,11 @@ class Color extends BitField {
         return this;
     }
 
+    /**
+     * @description Adjusts the shade of the color
+     * @param {number|string|bigint} percentage the percentage of 255 to adjust by
+     */
+
     darken(percentage=0) {
         if (["string", "number", "bigint"].includes(typeof percentage) && /^\d{1,}$/.test(`${percentage}`.replace(".", ""))) {
             percentage = Number(percentage) / 100;
@@ -116,6 +126,10 @@ class Color extends BitField {
         }
         return this;
     }
+
+    /**
+     * @description Shifts the color on the color wheel to it's direct opposite color
+     */
 
     inverse() {
         this.R = 255 - this.R;
