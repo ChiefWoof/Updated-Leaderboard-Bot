@@ -839,7 +839,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = value instanceof Color ? value : new Color(value);
         if (cell) {
             let res = ColorSearch.search(v);
-            cell.value = `${res ? res.name : v ? `#${v.hex}` : "_"}`;
+            cell.value = `${res ? res.name : v && v.value !== null ? `#${v.hex}` : "_"}`;
             this.refreshedLast = new Date();
         }
     }
