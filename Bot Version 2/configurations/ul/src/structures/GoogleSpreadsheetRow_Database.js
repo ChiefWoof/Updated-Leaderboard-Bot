@@ -831,7 +831,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     get pcolor() {
         let cell = this.getCellByHeader("pcolor");
         let cellData = cell ? cell._draftData.value === undefined ? cell.value : cell._draftData.value : undefined;
-        return ColorSearch.search(cellData) || new Color(data, null);
+        return ColorSearch.search(cellData) || new Color(cellData, null);
     }
     
     set pcolor(value) {
