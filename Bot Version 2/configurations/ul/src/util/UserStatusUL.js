@@ -73,6 +73,24 @@ class UserStatusUL extends BitField {
     set GDBROWSER_DEV(bool) { return this.resolveBitBoolean(this.indicators.GDBROWSER_DEV, bool); }
 
     /**
+     * @description Whether the user is banned from being on the Updated Leaderboard
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get BANNED() { return this.has(this.indicators.BANNED); }
+    set BANNED(bool) { return this.resolveBitBoolean(this.indicators.BANNED, bool); }
+
+    /**
+     * @description Whether the user is banned from being able to change their UL settings
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get BANNED_SETTINGS() { return this.has(this.indicators.BANNED_SETTINGS); }
+    set BANNED_SETTINGS(bool) { return this.resolveBitBoolean(this.indicators.BANNED_SETTINGS, bool); }
+
+    /**
      * @description Whether the user is a member of the "Star Grinders" Discord server
      * @type {boolean}
      * @param {boolean} bool
@@ -85,14 +103,18 @@ class UserStatusUL extends BitField {
 
 UserStatusUL.INDICATORS = {
 
-    /// helper level (0-3)
+    /// Helper level (0-3)
     HELPER_LEVEL_BIT_0: 1 << 0,
     HELPER_LEVEL_BIT_1: 1 << 1,
     HELPER_LEVEL_BIT_2: 1 << 2,
 
-    // helper extensions (4 - 15)
+    // Helper extensions (4-9)
     UGDB_ADMIN: 1 << 4,
     GDBROWSER_DEV: 1 << 5,
+
+    // UL account configuration (10-15)
+    BANNED: 1 << 10,
+    BANNED_SETTINGS: 1 << 11,
 
     // Star Grinders (16-20)
     SG: 1 << 16
