@@ -250,9 +250,9 @@ add("Purple", presets.PURPLE);
 add("Dark Purple", presets.DARK_PURPLE);
 add("Light Purple", presets.LIGHT_PURPLE);
 
-add("Magenta", presets.MAGENTA);
-add("Dark Magenta", presets.DARK_MAGENTA);
-add("Light Magenta", presets.LIGHT_MAGENTA);
+add("Magenta", presets.MAGENTA, "Pink");
+add("Dark Magenta", presets.DARK_MAGENTA, "Dark Pink");
+add("Light Magenta", presets.LIGHT_MAGENTA, "Light Pink");
 
 add("Brown", presets.BROWN);
 add("Dark Brown", presets.DARK_BROWN);
