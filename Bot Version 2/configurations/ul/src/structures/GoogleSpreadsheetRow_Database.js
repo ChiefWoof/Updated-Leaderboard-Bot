@@ -61,7 +61,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             let value = cellValue ? cellValue.split("*") : [];
             value[0] = isNaN(date.getTime()) ? "" : `${date.getTime()}`;
             cell.value = value.join("*");
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -87,7 +87,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             let value = cellValue ? cellValue.split("*") : [];
             value[1] = id;
             cell.value = value.join("*");
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -110,7 +110,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("accountID");
         if (cell && ["number", "string", "bigint"].includes(typeof id) && /^[0-9]{1,}$/.test(id)) {
             cell.value = `${id}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -131,7 +131,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("sg");
         if (cell) {
             cell.value = `${/^true$/i.test(value)}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -152,7 +152,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("locked");
         if (cell) {
             cell.value = `${/^true$/i.test(value)}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -173,7 +173,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("setBan");
         if (cell) {
             cell.value = `${/^true$/i.test(value)}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -193,7 +193,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = value instanceof UserStatsBans ? value : new UserStatsBans(value);
         if (cell) {
             cell.value = `${v.bansString || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -216,7 +216,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("playerID");
         if (cell && ["number", "string", "bigint"].includes(typeof id) && /^[0-9]{1,}$/.test(id)) {
             cell.value = `${id}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -237,7 +237,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("username");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -259,7 +259,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("stars");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -281,7 +281,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("diamonds");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -303,7 +303,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("scoins");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -325,7 +325,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("ucoins");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -347,7 +347,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("demons");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -369,7 +369,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("cp");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -405,7 +405,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("mod");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -427,7 +427,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("rankGlobal");
         if (cell) {
             cell.value = `${value && /^[0-9]{1,}$/.test(value) ? value : 0}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -447,7 +447,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = value instanceof IconSet ? value : new IconSet(value);
         if (cell) {
             cell.value = `${v.stringfy() || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -480,7 +480,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
                 ].join(":"));
             }
             cell.value = data.join(",");
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -519,7 +519,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
                 ].join(":"));
             }
             cell.value = data.join(",");
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -566,7 +566,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
      * @param {Date|number|BigInt|string} value
      */
 
-    get refreshedLast() {
+    get timestampRefreshedStats() {
         let cell = this.getCellByHeader("refreshPrevious");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
@@ -574,7 +574,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         return isNaN(v.getTime()) ? null : v;
     }
     
-    set refreshedLast(value) {
+    set timestampRefreshedStats(value) {
         let cell = this.getCellByHeader("refreshPrevious");
         let v = `${value instanceof Date ? value.getTime() : value}`;
         if (cell) cell.value = `${v && /^[0-9]{1,}$/.test(v) ? v : 0}`;
@@ -596,7 +596,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = value instanceof Region ? value : new Region(value);
         if (cell) {
             cell.value = `${v.id}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -616,7 +616,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = value instanceof Country ? value : new Country(value);
         if (cell) {
             cell.value = `${v.id}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -636,7 +636,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = value instanceof Province ? value : new Province(value);
         if (cell) {
             cell.value = `${v.id}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -657,7 +657,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("mobile");
         if (cell) {
             cell.value = `${/^true$/i.test(value)}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -678,7 +678,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("pc");
         if (cell) {
             cell.value = `${/^true$/i.test(value)}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -703,7 +703,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             let value = cellValue ? [cellValue.substr(0, cellValue.lastIndexOf("*")), cellValue.substr(cellValue.lastIndexOf("*") + 1)] : [];
             value[0] = tag;
             cell.value = value.join("*");
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -728,7 +728,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             let value = cellValue ? [cellValue.substr(0, cellValue.lastIndexOf("*")), cellValue.substr(cellValue.lastIndexOf("*") + 1)] : [];
             value[1] = id;
             cell.value = value.join("*");
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -749,7 +749,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("bio");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -770,7 +770,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("youtube");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -791,7 +791,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("twitter");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -812,7 +812,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("twitch");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -833,7 +833,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("server");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -860,7 +860,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         if (cell) {
             let res = ColorSearch.search(v);
             cell.value = `${res ? res.name : v && v.value !== null ? `#${v.hex}` : GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -881,7 +881,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("bgprog");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -902,7 +902,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("github");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
@@ -923,7 +923,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("instagram");
         if (cell) {
             cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
-            this.refreshedLast = new Date();
+            this.timestampRefreshedStats = new Date();
         }
     }
 
