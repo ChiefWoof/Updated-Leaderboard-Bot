@@ -207,6 +207,8 @@ ColorSearch.searchHex = function(tolerance, str) {
  */
 
 ColorSearch.search = function(data, tolerance=0) {
+    if (data instanceof Color)
+        return ColorSearch.search(data.rgb, tolerance);
     if (typeof data === "string") {
         let dataRGB = data.replace(/,/g, " ").split(" ").filter(a => /\d{1,3}/.test(a)).map(a => Number(a));
         if (dataRGB.length >= 3 && dataRGB.every(a => a >= 0 && a <= 255))
