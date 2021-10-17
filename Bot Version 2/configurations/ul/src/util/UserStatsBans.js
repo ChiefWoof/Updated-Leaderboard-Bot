@@ -192,10 +192,10 @@ UserStatsBans.toBansString = function(obj={}) {
         if (!bool) return v;
         if (/^(stars?)$/i.test(stat)) v += EMOTE_STARS;
         if (/^(diamonds?)$/i.test(stat)) v += EMOTE_DIAMONDS;
-        if (/^(scoins?|secretcoins?|secret coins?|coins?)$/i.test(stat)) v += EMOTE_SCOINS;
-        if (/^(ucoins?|usercoins?|user coins?)$/i.test(stat)) v += EMOTE_UCOINS;
+        if (/^(scoins?|secret ?coins?|coins?)$/i.test(stat)) v += EMOTE_SCOINS;
+        if (/^(ucoins?|user ?coins?)$/i.test(stat)) v += EMOTE_UCOINS;
         if (/^(demons?)$/i.test(stat)) v += EMOTE_DEMONS;
-        if (/^(cp|creatorpoints?|creator points?)$/i.test(stat)) v += EMOTE_CP;
+        if (/^(cp|creator ?points?)$/i.test(stat)) v += EMOTE_CP;
         return v;
     }, "");
 }
