@@ -10,7 +10,31 @@ const {
     }
 } = require("./Constants");
 
+/**
+ * @typedef {Object} STATS_GENERAL
+ * @property {number} [stars=0]
+ * @property {number} [diamonds=0]
+ * @property {number} [scoins=0]
+ * @property {number} [ucoins=0]
+ * @property {number} [demons=0]
+ * @property {number} [cp=0]
+ */
+
+/**
+ * @typedef {Object} STATS_SPECIAL
+ * @property {number} [demonsList=0]
+ */
+
+/**
+ * @description UL stats for GD users
+ */
+
 class UserStats {
+
+    /**
+     * @constructor
+     * @param {STATS_GENERAL & STATS_SPECIAL} data 
+     */
 
     constructor(data) {
         this.build();
@@ -55,11 +79,19 @@ class UserStats {
         this.demons = 0;
 
         /**
-         * @description The amount of cp
+         * @description The amount of creator points
          * @type {number}
          */
 
         this.cp = 0;
+
+        /**
+         * @description The amount of completed demons on the demon list
+         * @see {@link https://www.pointercrate.com/demonlist/}
+         * @type {number}
+         */
+
+        this.demonsList = 0;
 
     }
 
@@ -83,6 +115,10 @@ class UserStats {
      */
 
     get netSpecial() { return UserStats.calculateNetSpecial(this); }
+
+    /**
+     * @param {STATS_GENERAL & STATS_SPECIAL} data 
+     */
 
     parse(data={}) {
         Object.entries(data).forEach(([k, v]) => {
@@ -140,13 +176,7 @@ UserStats.switchName = function(keyName, {
 }
 
 /**
- * @param {Object} [data] 
- * @param {number} [data.stars]
- * @param {number} [data.diamonds]
- * @param {number} [data.scoins]
- * @param {number} [data.ucoins]
- * @param {number} [data.demons]
- * @param {number} [data.cp]
+ * @param {STATS_GENERAL} data
  * @returns {number} The calculated raw score
  */
     
@@ -169,8 +199,7 @@ UserStats.calculateNetRaw = function({
 }
 
 /**
- * @param {Object} [data] 
- * @param {number} [data.demonsList]
+ * @param {STATS_SPECIAL} data
  * @returns {number} The calculated special score
  */
 
@@ -183,7 +212,7 @@ UserStats.calculateNetSpecial = function({
 }
 
 /**
- * @param {Object} data
+ * @param {STATS_GENERAL & STATS_SPECIAL} data
  * @returns {number} The calculated net score
  */
 
