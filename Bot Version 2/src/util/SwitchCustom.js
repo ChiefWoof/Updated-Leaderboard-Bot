@@ -1,12 +1,24 @@
 "use strict";
 
 /**
+ * @typedef {string | number | BigInt | boolean | (() => boolean) | RegExp} ENTRY_KEY
+ * @typedef {*} ENTRY_VALUE
+ * @typedef {[key: ENTRY_KEY, value: ENTRY_VALUE]} ENTRY
+ */
+
+/**
  * @description A customizable version of the "Switch" structure
  * that supports strings, numbers, BigInts, booleans, functions, and RegExps
  * @extends {Array}
  */
 
 class SwitchCustom extends Array {
+
+    /**
+     * @constructor
+     * @param {ENTRY_VALUE} defaultValue 
+     * @param  {...ENTRY} entries 
+     */
 
     constructor(defaultValue, ...entries) {
         super();
@@ -24,7 +36,7 @@ class SwitchCustom extends Array {
     /**
      * @description The switching function
      * @param {*} keyValue the value to compare
-     * @param {*} [defaultValue=this.defaultValue] the value to return for a failed switch
+     * @param {ENTRY_VALUE} [defaultValue=this.defaultValue] the value to return for a failed switch
      * @returns {*} The value that was switched for
      */
 
@@ -44,8 +56,8 @@ class SwitchCustom extends Array {
 
     /**
      * @description Attempts to add a [key, value] entry else produces an error
-     * @param {key: string | number | BigInt | boolean | (() => boolean) | RegExp, value: ?*} key the value to be compared to
-     * @param {*} value the value to return in the switch
+     * @param {ENTRY_KEY} key the value to be compared to
+     * @param {ENTRY_VALUE} value the value to return in the switch
      */
 
     register(key, value) {
@@ -59,7 +71,7 @@ class SwitchCustom extends Array {
 
     /**
      * @description Attempts to add [key, value] entries else produces an error
-     * @param {...[key: string | number | BigInt | boolean | (() => boolean) | RegExp, value: ?*]} entries
+     * @param {...ENTRY} entries
      */
 
     registerEntries(...entries) {
