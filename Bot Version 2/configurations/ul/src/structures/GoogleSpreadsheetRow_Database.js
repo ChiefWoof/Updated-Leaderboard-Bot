@@ -18,6 +18,7 @@ const IconSet = require("../util/IconSet");
  */
 
 class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
+    static NULL_VALUE = GoogleSpreadsheetRow_Database.NULL_VALUE;
 
     /**
      * @description The timestamp the user was added to the database
@@ -191,7 +192,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("banFrom");
         let v = value instanceof UserStatsBans ? value : new UserStatsBans(value);
         if (cell) {
-            cell.value = `${v.bansString || "_"}`;
+            cell.value = `${v.bansString || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -229,13 +230,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("username");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set username(value) {
         let cell = this.getCellByHeader("username");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -373,7 +374,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     }
 
     /**
-     * @description The mod status of the user or 0
+     * @description The GD mod status of the user or 0
      * @returns {number}
      * @param {number|BigInt|string} value
      */
@@ -385,6 +386,20 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let v = Number(cellValue);
         return isNaN(v) ? 0 : v;
     }
+
+    /**
+     * @description Whether the user is a GD elder mod
+     * @returns {Boolean}
+     */
+
+    get isModElder() { return this.mod >= 2; }
+
+    /**
+     * @description Whether the user is a GD mod
+     * @returns {Boolean}
+     */
+
+    get isMod() { return this.mod >= 1; }
     
     set mod(value) {
         let cell = this.getCellByHeader("mod");
@@ -431,7 +446,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("iconData");
         let v = value instanceof IconSet ? value : new IconSet(value);
         if (cell) {
-            cell.value = `${v.stringfy() || "_"}`;
+            cell.value = `${v.stringfy() || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -446,7 +461,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("pastUsernames");
         if (!cell) return [];
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        if (!(typeof cellValue === "string" && cellValue !== "_")) return [];
+        if (!(typeof cellValue === "string" && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE)) return [];
         return cellValue.split(",").map(a => a ? a.split(":")[0] : undefined);
     }
     
@@ -677,7 +692,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
         let value = typeof cellValue === "string" ? cellValue.substr(0, cellValue.lastIndexOf("*")) : null;
-        return value && value !== "_" ? value : null;
+        return value && value !== GoogleSpreadsheetRow_Database.NULL_VALUE ? value : null;
     }
     
     set discordTag(tag) {
@@ -727,13 +742,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("bio");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set bio(value) {
         let cell = this.getCellByHeader("bio");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -748,13 +763,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("youtube");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set youtube(value) {
         let cell = this.getCellByHeader("youtube");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -769,13 +784,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("twitter");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set twitter(value) {
         let cell = this.getCellByHeader("twitter");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -790,13 +805,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("twitch");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set twitch(value) {
         let cell = this.getCellByHeader("twitch");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -811,13 +826,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("server");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set discordGuildInviteCode(value) {
         let cell = this.getCellByHeader("server");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -831,15 +846,20 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     get pcolor() {
         let cell = this.getCellByHeader("pcolor");
         let cellData = cell ? cell._draftData.value === undefined ? cell.value : cell._draftData.value : undefined;
-        return ColorSearch.search(cellData) || new Color(cellData, null);
+        let res = ColorSearch.search(cellData);
+        if (res) {
+            res.color.defaultValue = null;
+            return res.color;
+        }
+        return new Color(cellData, null);
     }
     
     set pcolor(value) {
         let cell = this.getCellByHeader("pcolor");
-        let v = value instanceof Color ? value : new Color(value);
+        let v = value instanceof Color ? value : new Color(value, null);
         if (cell) {
             let res = ColorSearch.search(v);
-            cell.value = `${res ? res.name : v && v.value !== null ? `#${v.hex}` : "_"}`;
+            cell.value = `${res ? res.name : v && v.value !== null ? `#${v.hex}` : GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -854,13 +874,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("bgprog");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set bgprog(value) {
         let cell = this.getCellByHeader("bgprog");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -875,13 +895,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("github");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set github(value) {
         let cell = this.getCellByHeader("github");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
@@ -896,13 +916,13 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("instagram");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        return cellValue && cellValue !== "_" ? `${cellValue}` : null;
+        return cellValue && cellValue !== GoogleSpreadsheetRow_Database.NULL_VALUE ? `${cellValue}` : null;
     }
     
     set instagram(value) {
         let cell = this.getCellByHeader("instagram");
         if (cell) {
-            cell.value = `${value || "_"}`;
+            cell.value = `${value || GoogleSpreadsheetRow_Database.NULL_VALUE}`;
             this.refreshedLast = new Date();
         }
     }
