@@ -75,9 +75,13 @@ class Color extends BitField {
      */
 
     resolve(bit) {
-        if (typeof bit === "string" && Color.REGEX.hex.test(bit))
-            this.hex = bit;
-        else if (Array.isArray(bit))
+        if (typeof bit === "string") {
+            let dataRGB = bit.replace(/,/g, " ").split(" ").filter(a => /\d{1,3}/.test(a)).map(a => Number(a));
+            if (dataRGB.length >= 3 && dataRGB.every(a => a >= 0 && a <= 255))
+                return this.resolve(dataRGB);
+            else if (Color.REGEX.hex.test(bit))
+                this.hex = bit;
+        } else if (Array.isArray(bit))
             this.rgb = bit;
         else if (Object.prototype.toString.call(bit) === "[object Object]")
             Object.entries(bit).forEach(([k, v]) => {
