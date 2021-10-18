@@ -5,7 +5,28 @@ const Color = require("../../../../src/util/Color");
 
 const { PRESETS } = Color;
 const {
-    ul: { colors: ColorUL }
+    ul: {
+        colors: ColorUL,
+        stats: {
+            netWeights: WEIGHTS,
+            regex: {
+                stars: REGEX_STARS,
+                diamonds: REGEX_DIAMONDS,
+                scoins: REGEX_SCOINS,
+                ucoins: REGEX_UCOINS,
+                demons: REGEX_DEMONS,
+                cp: REGEX_CP,
+                net: REGEX_NET,
+                demonslist: REGEX_DEMONSLIST
+            }
+        }
+    },
+    UTIL: {
+        regex: {
+            valid: REGEX_VALID,
+            invalid: REGEX_INVALID
+        }
+    }
 } = require("../util/Constants");
 
 class ColorSearch {}
@@ -277,18 +298,18 @@ add("Light Gray", presets.LIGHT_GRAY);
 add("Updated Leaderboard", presets.UL, "ul");
 add("woof", presets.WOOF, "8=8", /^8={1,}8$/);
 
-add("valid", presets.VALID, /^(yes|check|1|true)$/i);
-add("invalid", presets.INVALID, /^(no|x|error|0|false)$/i);
+add("valid", presets.VALID, REGEX_VALID);
+add("invalid", presets.INVALID, REGEX_INVALID);
 
 add("cooldown", presets.COOLDOWN);
 add("settings", presets.SETTINGS);
 
-add("stars", presets.STARS, /^(stars?)$/i);
-add("diamonds", presets.DIAMONDS, /^(diamonds?)$/i);
-add("secret coins", presets.SCOINS, /^(scoins?|secretcoins?|secret coins?|coins?)$/i);
-add("user coins", presets.UCOINS, /^(ucoins?|usercoins?|user coins?)$/i);
-add("demons", presets.DEMONS, /^(demons?)$/i);
-add("creator points", presets.CP, /^(cp|creatorpoints?|creator points?)$/i);
-add("net", presets.NET, /^(netscore|overall)$/i);
+add("stars", presets.STARS, REGEX_STARS);
+add("diamonds", presets.DIAMONDS, REGEX_DIAMONDS);
+add("secret coins", presets.SCOINS, REGEX_SCOINS);
+add("user coins", presets.UCOINS, REGEX_UCOINS);
+add("demons", presets.DEMONS, REGEX_DEMONS);
+add("creator points", presets.CP, REGEX_CP);
+add("net", presets.NET, REGEX_NET);
 
 module.exports = ColorSearch;
