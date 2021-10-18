@@ -5,7 +5,17 @@ const SwitchCustom = require("../../../../src/util/SwitchCustom");
 const {
     ul: {
         stats: {
-            netWeights: WEIGHTS
+            netWeights: WEIGHTS,
+            regex: {
+                stars: REGEX_STARS,
+                diamonds: REGEX_DIAMONDS,
+                scoins: REGEX_SCOINS,
+                ucoins: REGEX_UCOINS,
+                demons: REGEX_DEMONS,
+                cp: REGEX_CP,
+                net: REGEX_NET,
+                demonslist: REGEX_DEMONSLIST
+            }
         }
     }
 } = require("./Constants");
@@ -130,6 +140,7 @@ class UserStats {
                 ucoins: () => this.ucoins = Number(v) || 0,
                 demons: () => this.demons = Number(v) || 0,
                 cp: () => this.cp = Number(v) || 0,
+                demonslist: () => this.demonsList = Number(v) || 0
             })();
         });
         return this;
@@ -162,16 +173,18 @@ UserStats.switchName = function(keyName, {
     ucoins = "User Coins",
     demons = "Demons",
     cp = "Creator Points",
-    net = "Net Score"
+    net = "Net Score",
+    demonslist = "Demonlist"
 }={}) {
     return new SwitchCustom(failed, ...[
-        [/^(stars?)$/i, stars],
-        [/^(diamonds?)$/i, diamonds],
-        [/^(scoins?|secret ?coins?|coins?)$/i, scoins],
-        [/^(ucoins?|user ?coins?)$/i, ucoins],
-        [/^(demons?)$/i, demons],
-        [/^(cp|creator ?points?)$/i, cp],
-        [/^(net|netscore|overall)$/i, net]
+        [REGEX_STARS, stars],
+        [REGEX_DIAMONDS, diamonds],
+        [REGEX_SCOINS, scoins],
+        [REGEX_UCOINS, ucoins],
+        [REGEX_DEMONS, demons],
+        [REGEX_CP, cp],
+        [REGEX_NET, net],
+        [REGEX_DEMONSLIST, demonslist]
     ]).switch(keyName);
 }
 
