@@ -1077,7 +1077,7 @@ GoogleSpreadsheetRow_Database.toUserUL = function(data, base=new UserUL()) {
 
     base.parse(Object.entries(dataFiltered).reduce((res, [k, v]) => {
 
-        if (/^(disID?)$/i.test(k)) res.timestampRefreshedStats = v;
+        if (/^(disID)$/i.test(k)) res.disID = v;
         if (/^(ulID)$/i.test(k)) res.ulID = v;
         if (/^((gd)?accountID)$/i.test(k)) res.gdAccountID = v;
         if (/^(timestampJoined)$/i.test(k)) res.timestampJoined = v;
