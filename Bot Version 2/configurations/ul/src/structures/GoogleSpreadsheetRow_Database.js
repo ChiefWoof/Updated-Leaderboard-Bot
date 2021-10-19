@@ -135,7 +135,6 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("timestamp");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-
         if (!(cell && cellValue)) return null;
         switch (typeof cellValue) {
 
@@ -675,7 +674,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         let cell = this.getCellByHeader("refreshPrevious");
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
-        let v = new Date(/^\d{1,}$/.test(cellValue) ? Number(cellValue) : cellValue);
+        let v = new Date(/^\d{1,}$/.test(cellValue) ? Number(cellValue) : (cellValue || "_"));
         return isNaN(v.getTime()) ? null : v;
     }
     
