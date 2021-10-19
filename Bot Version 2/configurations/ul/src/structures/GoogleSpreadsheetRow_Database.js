@@ -1,6 +1,9 @@
 "use strict";
 
 const GoogleSpreadsheetRow = require("../../../../../googlesheetsExtended/src/foundation/GoogleSpreadsheetRow");
+const UserDiscord = require("../foundation/UserDiscord");
+const UserUL = require("../foundation/UserUL");
+const UserGD = require("../foundation/UserGD");
 
 const Region = require("../../../../../earth/src/foundation/Region");
 const Country = require("../../../../../earth/src/foundation/Country");
@@ -19,6 +22,88 @@ const IconSet = require("../util/IconSet");
 
 class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     static NULL_VALUE = GoogleSpreadsheetRow_Database.NULL_VALUE;
+
+    /**
+     * @param {UserDiscord} user
+     * @returns {UserDiscord}
+     */
+
+    get userDiscord() {
+        return new UserDiscord({
+            disID: this.discordID,
+            tag: this.discordTag,
+            ulID: this.row.rowIndex,
+            gdAccountID: this.accountID
+        });
+    }
+
+    set userDiscord(user) {
+        if (user instanceof UserDiscord) {
+            this.discordTag = user.tag;
+            this.discordID = user.disID;
+        }
+    }
+
+    /**
+     * @param {UserUL} user
+     * @returns {UserUL}
+     */
+
+    get userUL() {
+        return new UserUL({
+            disID: this.discordID,
+            ulID: this.row.rowIndex,
+            gdAccountID: this.accountID,
+            timestampJoined: this.timestampJoined,
+            bannedLeaderboards: this.bannedLeaderboards
+        });
+    }
+
+    set userUL(user) {
+        if (user instanceof UserUL) {
+            this.timestampJoined = user.timestampJoined;
+        }
+    }
+
+    /**
+     * @param {UserGD} user
+     * @returns {UserGD}
+     */
+
+    get userGD() {
+        let u = new UserGD({
+            timestampRefreshedStats: this.timestampRefreshedStats,
+            accountID: this.accountID,
+            playerID: this.playerID,
+            username: this.username,
+            usernamesPast: this.usernamesPast,
+            usernamesPastTimestamps: this.usernamesPastTimestamps,
+            stars: this.stars,
+            diamonds: this.diamonds,
+            scoins: this.scoins,
+            ucoins: this.ucoins,
+            demons: this.demons,
+            cp: this.cp,
+            rankGlobal: this.rankGlobal,
+            iconSet: this.iconSet,
+            youtube: this.youtube,
+            twitter: this.twitter,
+            twitch: this.twitch
+        });
+        u.status.MOD = this.isMod;
+        u.status.MOD_ELDER = this.isModElder;
+        u.consoles.MOBILE = this.mobile;
+        u.consoles.PC = this.pc;
+        return u;
+    }
+
+    set userGD(user) {
+        if (user instanceof UserGD) {
+            this.accountID = user.gdAccountID;
+            this.discordTag = user.tag;
+            this.discordID = user.disID;
+        }
+    }
 
     /**
      * @description The timestamp the user was added to the database
