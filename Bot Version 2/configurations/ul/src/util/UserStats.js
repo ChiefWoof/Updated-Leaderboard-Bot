@@ -14,7 +14,7 @@ const {
                 demons: REGEX_DEMONS,
                 cp: REGEX_CP,
                 net: REGEX_NET,
-                demonslist: REGEX_DEMONSLIST
+                demonsList: REGEX_DEMONS_LIST
             }
         }
     }
@@ -140,7 +140,7 @@ class UserStats {
                 ucoins: () => this.ucoins = Number(v) || 0,
                 demons: () => this.demons = Number(v) || 0,
                 cp: () => this.cp = Number(v) || 0,
-                demonslist: () => this.demonsList = Number(v) || 0
+                demonsList: () => this.demonsList = Number(v) || 0
             })();
         });
         return this;
@@ -174,7 +174,7 @@ UserStats.switchName = function(keyName, {
     demons = "Demons",
     cp = "Creator Points",
     net = "Net Score",
-    demonslist = "Demonlist"
+    demonsList = "Demonlist"
 }={}) {
     return new SwitchCustom(failed, ...[
         [REGEX_STARS, stars],
@@ -184,7 +184,7 @@ UserStats.switchName = function(keyName, {
         [REGEX_DEMONS, demons],
         [REGEX_CP, cp],
         [REGEX_NET, net],
-        [REGEX_DEMONSLIST, demonslist]
+        [REGEX_DEMONS_LIST, demonsList]
     ]).switch(keyName);
 }
 
