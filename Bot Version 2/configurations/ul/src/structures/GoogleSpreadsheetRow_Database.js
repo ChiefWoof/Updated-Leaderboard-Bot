@@ -14,6 +14,22 @@ const Color = require("../../../../src/util/Color");
 
 const UserStatsBans = require("../util/UserStatsBans");
 const IconSet = require("../util/IconSet");
+const Consoles = require("../util/Consoles");
+
+const {
+    ul: {
+        stats: {
+            regex: {
+                stars: REGEX_STARS,
+                diamonds: REGEX_DIAMONDS,
+                scoins: REGEX_SCOINS,
+                ucoins: REGEX_UCOINS,
+                demons: REGEX_DEMONS,
+                cp: REGEX_CP
+            }
+        }
+    }
+} = require("../util/Constants");
 
 /**
  * @description An extended version of the "GoogleSpreadsheetRow" extension
@@ -29,14 +45,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
      * @returns {UserDiscord}
      */
 
-    get userDiscord() {
-        return new UserDiscord({
-            disID: this.discordID,
-            tag: this.discordTag,
-            ulID: this.row.rowIndex,
-            gdAccountID: this.accountID
-        });
-    }
+    get userDiscord() { return GoogleSpreadsheetRow_Database.toUserDiscord(this); }
 
     set userDiscord(user) {
         if (user instanceof UserDiscord) {
@@ -51,15 +60,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
      * @returns {UserUL}
      */
 
-    get userUL() {
-        return new UserUL({
-            disID: this.discordID,
-            ulID: this.row.rowIndex,
-            gdAccountID: this.accountID,
-            timestampJoined: this.timestampJoined,
-            bannedLeaderboards: this.bannedLeaderboards
-        });
-    }
+    get userUL() { return GoogleSpreadsheetRow_Database.toUserUL(this); }
 
     set userUL(user) {
         if (user instanceof UserUL) {
@@ -74,32 +75,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
      * @returns {UserGD}
      */
 
-    get userGD() {
-        let u = new UserGD({
-            timestampRefreshedStats: this.timestampRefreshedStats,
-            accountID: this.accountID,
-            playerID: this.playerID,
-            username: this.username,
-            usernamesPast: this.usernamesPast,
-            usernamesPastTimestamps: this.usernamesPastTimestamps,
-            stars: this.stars,
-            diamonds: this.diamonds,
-            scoins: this.scoins,
-            ucoins: this.ucoins,
-            demons: this.demons,
-            cp: this.cp,
-            rankGlobal: this.rankGlobal,
-            iconSet: this.iconSet,
-            youtube: this.youtube,
-            twitter: this.twitter,
-            twitch: this.twitch
-        });
-        u.status.MOD = this.isMod;
-        u.status.MOD_ELDER = this.isModElder;
-        u.consoles.MOBILE = this.mobile;
-        u.consoles.PC = this.pc;
-        return u;
-    }
+    get userGD() { return GoogleSpreadsheetRow_Database.toUserGD(this); }
 
     set userGD(user) {
         if (user instanceof UserGD) {
@@ -122,6 +98,21 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             this.mod = user.status.MOD_ELDER ? 2 : user.status.MOD ? 1 : 0;
             this.mobile = user.consoles.MOBILE;
             this.pc = user.consoles.PC;
+        }
+    }
+
+    /**
+     * @description Converts data into a "Consoles" instance
+     * @param {Consoles} user
+     * @returns {Consoles}
+     */
+
+    get consoles() { return GoogleSpreadsheetRow_Database.toConsoles(this); }
+
+    set consoles(data) {
+        if (data instanceof Consoles) {
+            this.mobile = data.MOBILE;
+            this.pc = data.PC;
         }
     }
 
@@ -1030,6 +1021,176 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             this.timestampRefreshedStats = new Date();
         }
     }
+
+}
+
+/**
+ * @description Converts data into a "UserDiscord" instance
+ * @param {GoogleSpreadsheetRow_Database|UserDiscord} data
+ * @param {UserDiscord} [base=new UserDiscord()]
+ * @returns {UserDiscord}
+ */
+
+GoogleSpreadsheetRow_Database.toUserDiscord = function(data, base=new UserDiscord()) {
+    
+    let dataFiltered;
+    if (data instanceof GoogleSpreadsheetRow_Database)
+        dataFiltered = {
+            disID: data.discordID,
+            tag: data.discordTag,
+            ulID: data.row.rowIndex,
+            accountID: data.accountID,
+        };
+    else dataEntries = data;
+
+    base.parse(Object.entries(dataFiltered).reduce((res, [k, v]) => {
+        if (/^(disID)$/i.test(k)) res.disID = v;
+        if (/^((discord)?tag)$/i.test(k)) res.tag = v;
+        if (/^(ulID)$/i.test(k)) res.ulID = v;
+        if (/^((gd)?accountID)$/i.test(k)) res.gdAccountID = v;
+        return res;
+    }, {}));
+
+    return base;
+
+}
+
+/**
+ * @description Converts data into a "UserUL" instance
+ * @param {GoogleSpreadsheetRow_Database|UserUL} data
+ * @param {UserUL} [base=new UserUL()]
+ * @returns {UserUL}
+ */
+
+GoogleSpreadsheetRow_Database.toUserUL = function(data, base=new UserUL()) {
+    
+    let dataFiltered;
+    if (data instanceof GoogleSpreadsheetRow_Database)
+        dataFiltered = {
+            disID: data.discordID,
+            ulID: data.row.rowIndex,
+            accountID: data.accountID,
+            timestampJoined: data.timestampJoined,
+            bannedLeaderboards: data.bannedLeaderboards
+        };
+    else dataEntries = data;
+
+    base.parse(Object.entries(dataFiltered).reduce((res, [k, v]) => {
+
+        if (/^(disID?)$/i.test(k)) res.timestampRefreshedStats = v;
+        if (/^(ulID)$/i.test(k)) res.ulID = v;
+        if (/^((gd)?accountID)$/i.test(k)) res.gdAccountID = v;
+        if (/^(timestampJoined)$/i.test(k)) res.timestampJoined = v;
+
+        if (/^(bannedLeaderboards)$/i.test(k)) base.bannedLeaderboards.resolve(v);
+
+        return res;
+    }, {}));
+
+    return base;
+
+}
+
+/**
+ * @description Converts data into a "UserGD" instance
+ * @param {GoogleSpreadsheetRow_Database|UserGD} data
+ * @param {UserGD} [base=new UserGD()]
+ * @returns {UserGD}
+ */
+
+GoogleSpreadsheetRow_Database.toUserGD = function(data, base=new UserGD()) {
+
+    let dataFiltered;
+    if (data instanceof GoogleSpreadsheetRow_Database)
+        dataFiltered = {
+            timestampRefreshedStats: data.timestampRefreshedStats,
+            accountID: data.accountID,
+            playerID: data.playerID,
+            username: data.username,
+            usernamesPast: data.usernamesPast,
+            usernamesPastTimestamps: data.usernamesPastTimestamps,
+            stars: data.stars,
+            diamonds: data.diamonds,
+            scoins: data.scoins,
+            ucoins: data.ucoins,
+            demons: data.demons,
+            cp: data.cp,
+            rankGlobal: data.rankGlobal,
+            youtube: data.youtube,
+            twitter: data.twitter,
+            twitch: data.twitch,
+            
+            iconSet: data.iconSet,
+
+            mod: data.isMod,
+            modElder: data.isModElder,
+            consoles: data.consoles
+        };
+    else dataEntries = data;
+
+    base.parse(Object.entries(dataFiltered).reduce((res, [k, v]) => {
+
+        if (/^(timestampRefreshedStats?)$/i.test(k)) res.timestampRefreshedStats = v;
+        if (/^((gd)?accountID)$/i.test(k)) res.accountID = v;
+        if (/^((gd)?playerID)$/i.test(k)) res.playerID = v;
+        if (/^(username)$/i.test(k)) res.username = v;
+        if (/^(usernamesPast)$/i.test(k)) res.usernamesPast = v;
+        if (/^(usernamesPastTimestamps)$/i.test(k)) res.usernamesPastTimestamps = v;
+        if (REGEX_STARS.test(k)) res.stars = v;
+        if (REGEX_DIAMONDS.test(k)) res.diamonds = v;
+        if (REGEX_SCOINS.test(k)) res.scoins = v;
+        if (REGEX_UCOINS.test(k)) res.ucoins = v;
+        if (REGEX_DEMONS.test(k)) res.demons = v;
+        if (REGEX_CP.test(k)) res.cp = v;
+        if (/^(rankGlobal)$/i.test(k)) res.rankGlobal = v;
+        if (/^(youtube)$/i.test(k)) res.youtube = v;
+        if (/^(twitter)$/i.test(k)) res.twitter = v;
+        if (/^(twitch)$/i.test(k)) res.twitch = v;
+
+        if (/^(iconSet)$/i.test(k)) base.iconSet.parse(v);
+        if (/^(status)$/i.test(k)) base.status.resolve(v);
+
+        if (/^(mod)$/i.test(k)) base.status.parseMod(v);
+        if (/^(modElder)$/i.test(k)) base.status.MOD_ELDER = v;
+        if (/^(consoles)$/i.test(k)) base.consoles.resolve(v);
+        if (/^(mobile|phone)$/i.test(k)) base.consoles.MOBILE = v;
+        if (/^(PC|laptop|computer)$/i.test(k)) base.consoles.PC = v;
+
+        return res;
+    }, {}));
+
+    base.patch();
+    return base;
+
+}
+
+/**
+ * @description Converts data into a "Consoles" instance
+ * @param {GoogleSpreadsheetRow_Database|Consoles} data
+ * @param {Consoles} [base=new Consoles()]
+ * @returns {Consoles}
+ */
+
+GoogleSpreadsheetRow_Database.toConsoles = function(data, base=new Consoles()) {
+    
+    let dataFiltered;
+    if (data instanceof GoogleSpreadsheetRow_Database)
+        dataFiltered = {
+            mobile: data.mobile,
+            pc: data.pc
+        };
+    else dataEntries = data;
+
+    Object.entries(dataFiltered).forEach(([k, v]) => {
+
+        if (/^(consoles)$/i.test(k)) base.resolve(v);
+
+        if (/^(mobile|phone)$/i.test(k)) base.MOBILE = v;
+        if (/^(PC|laptop|computer)$/i.test(k)) base.PC = v;
+
+    });
+    
+    return base;
 
 }
 
