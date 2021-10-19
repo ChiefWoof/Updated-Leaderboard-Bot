@@ -1,6 +1,13 @@
 "use strict";
 
 const BitField = require("./BitField");
+const {
+    util: {
+        regex: {
+            valid: REGEX_VALID
+        }
+    }
+} = require("./Constants");
 
 /**
  * @description The status of the Discord User on Geometry Dash
@@ -44,6 +51,20 @@ class UserStatusGD extends BitField {
 
     get MOD_ELDER() { return this.has(this.indicators.MOD_ELDER); }
     set MOD_ELDER(bool) { return this.resolveBitBoolean(this.indicators.MOD_ELDER, bool); }
+
+    /**
+     * @description Makes any necessary adjustments based on the entered mod status value
+     * * `0` (DEFAULT) - NOT a mod
+     * * `1` - Regular Mod
+     * * `2` - Elder Mod
+     * @param {number|boolean|string|BigInt} value 
+     */
+
+    parseMod(value) {
+        value = /^\d{1,}$/.test(value) ? Number(value) : REGEX_VALID.test(value) ? 1 : 0;
+        this.MOD_ELDER = value >= 2;
+        this.MOD = value >= 1;
+    }
 
     /**
      * @description Whether the user is an in-game leaderboard moderator
