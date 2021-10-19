@@ -17,11 +17,11 @@ const {
                 demons: REGEX_DEMONS,
                 cp: REGEX_CP,
                 net: REGEX_NET,
-                demonslist: REGEX_DEMONSLIST
+                demonsList: REGEX_DEMONSLIST
             }
         }
     },
-    UTIL: {
+    util: {
         regex: {
             valid: REGEX_VALID,
             invalid: REGEX_INVALID
