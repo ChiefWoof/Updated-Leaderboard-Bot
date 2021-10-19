@@ -24,6 +24,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     static NULL_VALUE = GoogleSpreadsheetRow_Database.NULL_VALUE;
 
     /**
+     * @description Converts data into a "UserDiscord" instance
      * @param {UserDiscord} user
      * @returns {UserDiscord}
      */
@@ -45,6 +46,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     }
 
     /**
+     * @description Converts data into a "UserUL" instance
      * @param {UserUL} user
      * @returns {UserUL}
      */
@@ -62,10 +64,12 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
     set userUL(user) {
         if (user instanceof UserUL) {
             this.timestampJoined = user.timestampJoined;
+            this.bannedLeaderboards = user.bannedLeaderboards;
         }
     }
 
     /**
+     * @description Converts data into a "UserGD" instance
      * @param {UserGD} user
      * @returns {UserGD}
      */
@@ -99,9 +103,25 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
 
     set userGD(user) {
         if (user instanceof UserGD) {
-            this.accountID = user.gdAccountID;
-            this.discordTag = user.tag;
-            this.discordID = user.disID;
+            this.timestampRefreshedStats = user.timestampRefreshedStats;
+            this.accountID = user.accountID;
+            this.playerID = user.playerID;
+            this.usernamesPast = user.usernamesPast;
+            this.usernamesPastTimestamps = user.usernamesPastTimestamps;
+            this.usernameUpdate(user.username);
+            this.stars = user.stars;
+            this.diamonds = user.diamonds;
+            this.scoins = user.scoins;
+            this.ucoins = user.ucoins;
+            this.demons = user.demons;
+            this.rankGlobal = user.rankGlobal;
+            this.iconSet = user.iconSet;
+            this.youtube = user.youtube;
+            this.twitter = user.twitter;
+            this.twitch = user.twitch;
+            this.mod = user.status.MOD_ELDER ? 2 : user.status.MOD ? 1 : 0;
+            this.mobile = user.consoles.MOBILE;
+            this.pc = user.consoles.PC;
         }
     }
 
