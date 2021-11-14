@@ -286,7 +286,7 @@ class IconSet {
 
     get gamemode() { return this.gamemodeOverrideID || this.gamemodeSelected; }
 
-    stringfy(data=this, { separator=":" }={}) {
+    stringify(data=this, { separator=":" }={}) {
         return [
 
             // Gamemodes 1 - 19
