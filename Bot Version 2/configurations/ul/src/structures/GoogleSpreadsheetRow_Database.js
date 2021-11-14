@@ -141,7 +141,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             case "string": {
                 let value = cellValue.split("*")[0];
                 value = new Date(value);
-                return isNaN(value.getUTCMilliseconds()) ? null : value;
+                return isNaN(value.getTime()) ? null : value;
             }
 
         }
@@ -154,7 +154,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         if (cell) {
             let date = new Date(timestamp);
             let value = cellValue ? cellValue.split("*") : [];
-            value[0] = isNaN(date.getUTCMilliseconds()) ? "" : `${date.getUTCMilliseconds()}`;
+            value[0] = isNaN(date.getTime()) ? "" : `${date.getTime()}`;
             cell.value = value.join("*");
             this.timestampRefreshedStats = new Date();
         }
@@ -569,8 +569,8 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             for (let i = 0; i < Math.max(times.length, names.length); i++) {
                 data.unshift([
                     i < names.length ? names[names.length-1-i] || "" : "",
-                    times[times.length-1-i] instanceof Date && !isNaN(times[times.length-1-i].getUTCMilliseconds())
-                    ? times[times.length-1-i].getUTCMilliseconds()
+                    times[times.length-1-i] instanceof Date && !isNaN(times[times.length-1-i].getTime())
+                    ? times[times.length-1-i].getTime()
                     : times[times.length-1-i]
                 ].join(":"));
             }
@@ -606,9 +606,9 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
                 data.unshift([
                     i < names.length ? names[names.length-1-i] || "" : "",
                     i < times.length && times[times.length-1-i] !== null
-                    && (times[times.length-1-i] instanceof Date ? !isNaN(times[times.length-1-i].getUTCMilliseconds()) : true)
+                    && (times[times.length-1-i] instanceof Date ? !isNaN(times[times.length-1-i].getTime()) : true)
                         ? times[times.length-1-i] instanceof Date
-                            ? times[times.length-1-i].getUTCMilliseconds()
+                            ? times[times.length-1-i].getTime()
                             : times[times.length-1-i]
                     : ""
                 ].join(":"));
@@ -646,7 +646,7 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
             if (username !== this.username) {
                 if (!this.usernameEquals(username)) {
                     this.usernamesPast = [username, ...this.usernamesPast];
-                    this.usernamesPastTimestamps = [Date.UTC(), ...this.usernamesPastTimestamps.slice(1)];
+                    this.usernamesPastTimestamps = [Date.now(), ...this.usernamesPastTimestamps.slice(1)];
                 }
                 this.username = username;
                 return true;
@@ -666,12 +666,12 @@ class GoogleSpreadsheetRow_Database extends GoogleSpreadsheetRow {
         if (!cell) return null;
         let cellValue = cell._draftData.value === undefined ? cell.value : cell._draftData.value;
         let v = new Date(/^\d{1,}$/.test(cellValue) ? Number(cellValue) : (cellValue || "_"));
-        return isNaN(v.getUTCMilliseconds()) ? null : v;
+        return isNaN(v.getTime()) ? null : v;
     }
     
     set timestampRefreshedStats(value) {
         let cell = this.getCellByHeader("refreshPrevious");
-        let v = `${value instanceof Date ? value.getUTCMilliseconds() : value}`;
+        let v = `${value instanceof Date ? value.getTime() : value}`;
         if (cell) cell.value = `${v && /^[0-9]{1,}$/.test(v) ? v : 0}`;
     }
 
