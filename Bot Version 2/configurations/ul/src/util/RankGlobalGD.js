@@ -49,49 +49,49 @@ class RankGlobalGD extends Number {
      * @type {boolean}
      */
 
-    get hasRank() { return Number.isInteger(this) && this > 0; }
+    get hasRank() { return Number.isInteger(this.valueOf()) && this.valueOf() > 0; }
 
     /**
      * @description Whether the rank is within the Top 10
      * @type {boolean}
      */
 
-    get isTop10() { return this.hasRank && this <= 10; }
+    get isTop10() { return this.hasRank && this.valueOf() <= 10; }
 
     /**
      * @description Whether the rank is within the Top 50
      * @type {boolean}
      */
 
-    get isTop50() { return this.hasRank && this <= 50; }
+    get isTop50() { return this.hasRank && this.valueOf() <= 50; }
 
     /**
      * @description Whether the rank is within the Top 100
      * @type {boolean}
      */
 
-    get isTop100() { return this.hasRank && this <= 100; }
+    get isTop100() { return this.hasRank && this.valueOf() <= 100; }
 
     /**
      * @description Whether the rank is within the Top 200
      * @type {boolean}
      */
 
-    get isTop200() { return this.hasRank && this <= 200; }
+    get isTop200() { return this.hasRank && this.valueOf() <= 200; }
 
     /**
      * @description Whether the rank is within the Top 500
      * @type {boolean}
      */
 
-    get isTop500() { return this.hasRank && this <= 500; }
+    get isTop500() { return this.hasRank && this.valueOf() <= 500; }
 
     /**
      * @description Whether the rank is within the Top 1000
      * @type {boolean}
      */
 
-    get isTop1000() { return this.hasRank && this <= 1000; }
+    get isTop1000() { return this.hasRank && this.valueOf() <= 1000; }
 
 
 
@@ -100,56 +100,56 @@ class RankGlobalGD extends Number {
      * @type {boolean}
      */
 
-    get isTrophyTop1() { return this == 1; }
+    get isTrophyTop1() { return this.valueOf() == 1; }
 
     /**
      * @description Whether the highest trophy is gold
      * @type {boolean}
      */
 
-    get isTrophyGold() { return this.hasRank && this > 1 && this <= RankGlobalGD.TROPHY_GOLD_THRESHOLD; }
+    get isTrophyGold() { return this.hasRank && this.valueOf() > 1 && this.valueOf() <= RankGlobalGD.TROPHY_GOLD_THRESHOLD; }
 
     /**
      * @description Whether the highest trophy is silver
      * @type {boolean}
      */
 
-    get isTrophySilver() { return this.hasRank && this > RankGlobalGD.TROPHY_GOLD_THRESHOLD && this <= RankGlobalGD.TROPHY_SILVER_THRESHOLD; }
+    get isTrophySilver() { return this.hasRank && this.valueOf() > RankGlobalGD.TROPHY_GOLD_THRESHOLD && this.valueOf() <= RankGlobalGD.TROPHY_SILVER_THRESHOLD; }
 
     /**
      * @description Whether the highest trophy is bronze
      * @type {boolean}
      */
 
-    get isTrophyBronze() { return this.hasRank && this > RankGlobalGD.TROPHY_SILVER_THRESHOLD && this <= RankGlobalGD.TROPHY_BRONZE_THRESHOLD; }
+    get isTrophyBronze() { return this.hasRank && this.valueOf() > RankGlobalGD.TROPHY_SILVER_THRESHOLD && this.valueOf() <= RankGlobalGD.TROPHY_BRONZE_THRESHOLD; }
 
     /**
      * @description Whether the highest trophy is green
      * @type {boolean}
      */
 
-    get isTrophyGreen() { return this.hasRank && this > RankGlobalGD.TROPHY_BRONZE_THRESHOLD && this <= RankGlobalGD.TROPHY_GREEN_THRESHOLD; }
+    get isTrophyGreen() { return this.hasRank && this.valueOf() > RankGlobalGD.TROPHY_BRONZE_THRESHOLD && this.valueOf() <= RankGlobalGD.TROPHY_GREEN_THRESHOLD; }
 
     /**
      * @description Whether the highest trophy is blue
      * @type {boolean}
      */
 
-    get isTrophyBlue() { return this.hasRank && this > RankGlobalGD.TROPHY_GREEN_THRESHOLD && this <= RankGlobalGD.TROPHY_BLUE_THRESHOLD; }
+    get isTrophyBlue() { return this.hasRank && this.valueOf() > RankGlobalGD.TROPHY_GREEN_THRESHOLD && this.valueOf() <= RankGlobalGD.TROPHY_BLUE_THRESHOLD; }
 
     /**
      * @description Whether the highest trophy is purple
      * @type {boolean}
      */
 
-    get isTrophyPurple() { return this.hasRank && this > RankGlobalGD.TROPHY_BLUE_THRESHOLD && this <= RankGlobalGD.TROPHY_PURPLE_THRESHOLD; }
+    get isTrophyPurple() { return this.hasRank && this.valueOf() > RankGlobalGD.TROPHY_BLUE_THRESHOLD && this.valueOf() <= RankGlobalGD.TROPHY_PURPLE_THRESHOLD; }
 
     /**
      * @description Whether the highest trophy is the default trophy
      * @type {boolean}
      */
 
-    get isTrophyDefault() { return this.hasRank && this > RankGlobalGD.TROPHY_PURPLE_THRESHOLD; }
+    get isTrophyDefault() { return this.hasRank && this.valueOf() > RankGlobalGD.TROPHY_PURPLE_THRESHOLD; }
 
 
 
