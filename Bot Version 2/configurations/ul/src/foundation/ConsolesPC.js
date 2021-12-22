@@ -37,6 +37,24 @@ class ConsolesPC extends BitField {
     set IOS(bool) { return this.resolveBitBoolean(this.indicators.IOS, bool); }
 
     /**
+     * @description Whether the user uses an CHROME pc device (Mac)
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get CHROME() { return this.has(this.indicators.CHROME); }
+    set CHROME(bool) { return this.resolveBitBoolean(this.indicators.CHROME, bool); }
+
+    /**
+     * @description Whether the user uses an LINUX pc device (Mac)
+     * @type {boolean}
+     * @param {boolean} bool
+     */
+
+    get LINUX() { return this.has(this.indicators.LINUX); }
+    set LINUX(bool) { return this.resolveBitBoolean(this.indicators.LINUX, bool); }
+
+    /**
      * @description Updates the value of the general pc bit if necessary
      */
 
@@ -44,6 +62,8 @@ class ConsolesPC extends BitField {
         this.pc = this.pc
         || this.WINDOWS
         || this.IOS
+        || this.CHROME
+        || this.LINUX
     }
 
 }
@@ -52,7 +72,9 @@ ConsolesPC.INDICATORS = {
 
     pc: 1 << 0,
     WINDOWS: 1 << 1,
-    IOS: 1 << 2
+    IOS: 1 << 2,
+    CHROME: 1 << 3,
+    LINUX: 1 << 4
 
 };
 
