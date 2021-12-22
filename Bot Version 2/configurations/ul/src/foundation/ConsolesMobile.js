@@ -40,11 +40,7 @@ class ConsolesMobile extends BitField {
      * @description Updates the value of the general mobile bit if necessary
      */
 
-    patch() {
-        this.mobile = this.mobile
-        || this.IOS
-        || this.ANDROID;
-    }
+    patch() { this.mobile = Object.values(this.indicatorsObj()).includes(true); }
 
 }
 
