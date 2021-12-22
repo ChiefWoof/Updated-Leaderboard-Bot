@@ -58,13 +58,7 @@ class ConsolesPC extends BitField {
      * @description Updates the value of the general pc bit if necessary
      */
 
-    patch_pc() {
-        this.pc = this.pc
-        || this.WINDOWS
-        || this.IOS
-        || this.CHROME
-        || this.LINUX
-    }
+    patch_pc() { this.pc = Object.values(this.indicatorsObj()).includes(true); }
 
 }
 
