@@ -6,7 +6,7 @@ Documentation process
 * Majority of paragraphs and sentences should never end with a period unless a quotation (that has a period) or if a period makes it look "better" to viewers
 
 ## Documents Created for Discord Viewers
-* The total <u>visible</u> characters that follow \#-\#^3 should never exceed 32 (aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)
+* The total <u>visible</u> characters that follow \#-\#^3 headers should never exceed 32 (aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)
 * Whenever there's text or an image above a \#-\#^3 header, there should always be a [line break](#discord-line-breaks) above the header to create space
 * Whenever text sits between two distinct, large images, a [line break](#discord-line-breaks) should be put above and below the text
 
