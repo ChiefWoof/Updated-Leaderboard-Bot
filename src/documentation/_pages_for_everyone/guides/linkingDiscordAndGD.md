@@ -6,7 +6,7 @@ Step by step guide on linking your GD account to your Discord account
 * [2) Getting to woofBot's profile](#2-getting-to-woofbots-profile)
 * [3) The Bot's /link Command](#3-the-bots-link-command)
 * [4) Sending the Link Message](#4-sending-the-link-message)
-* [5) Completing the Process](#4-sending-the-link-message)
+* [5) Completing the Process](#5-completing-the-process)
 
 ---
 
