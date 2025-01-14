@@ -21,7 +21,7 @@ General information about the GD global ranking system.
 
 ## What it is
 
-<img src="../assets/gd_profile_1919857_rankGlobal.png" alt="GD online menu" width=540px height=200px>
+<img src="../assets/gd_profile_1919857_rankGlobal.png" alt="GD profile of accountID 1919857 zoomed in onto the global rank" width=540px height=200px>
 
 <br>
 
