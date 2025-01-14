@@ -56,7 +56,7 @@ Once the name is searched, open up the first user's profile. Then on the profile
 
 <br>
 
-In a Discord text channel, type "/link" and look for the bot's option. Then in the "user" parameter, type your GD username. Then send the command
+In a Discord text channel, type "/link" and look for the bot's command option. Then in the "user" parameter, type your GD username. Then send the command
 
 > [!IMPORTANT]  
 > If you are unable to find the command in the chat bar, it is most likely because either the bot does not have access to that text channel OR your Discord app needs to be updated. You may need to switch to a different text channel or configure the bot's channel permissions
