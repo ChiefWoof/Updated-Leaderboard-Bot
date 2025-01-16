@@ -36,7 +36,7 @@ When a user is rank banned by a in-game leaderboard mod, they are removed from t
 
 ### Global Leaderboard
 
-This is the first official rank section. Since it's creation, it has been adjusted to only rank players from 1001+, inclusively. Players are able to join this section after reaching 500 stars. Addition to this section is done when it is refreshed which is done <u>manually by RobTop</u> usually within a 2-week period
+This is the first official rank section. Since it's creation, it has been adjusted to only rank players from 1001+, inclusively. Players are able to join this section after reaching 500 stars. Players are and adjusted in the section when refreshed which is done __manually by RobTop__ usually (not always) within a 2-week period
 
 ### Top 1000 Leaderboard
 
