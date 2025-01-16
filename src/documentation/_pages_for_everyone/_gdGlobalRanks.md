@@ -29,7 +29,7 @@ A player's global rank is determined by their position in the official in-game t
 
 ### Rank Bans
 
-When a user a rank banned by a in-game leaderboard mod, they are removed from the global leaderboard and are prevented from being able to rejoin the section until the ban is lifted. The user's profile appears like any other unranked user. The global rank will not be displayed on the profile (showing as 0 in the code)
+When a user is rank banned by a in-game leaderboard mod, they are removed from the global leaderboard and are prevented from being able to rejoin the section until the ban is lifted. The user's profile appears like any other unranked user. The global rank will not be displayed on the profile (showing as 0 in the code)
 
 > [!CAUTION]  
 > If you are experiencing ranking issues, have concerns, or just need general support, you can join the official GD leaderboard Discord server ([here](https://discord.gg/PwdrGesHC6)) to find additional resources and ask for help
